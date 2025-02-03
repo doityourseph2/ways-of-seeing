@@ -69,7 +69,7 @@ function keyPressed() {
 	if (key === 'd') {
 	  debugMode = !debugMode;
 	  allSprites.debug = !allSprites.debug;  
-	  console.log("debugMode:", debugMode);
+	  //console.log("debugMode:", debugMode);
 
 	}
 	if (key === 's') {
@@ -103,7 +103,7 @@ function keyPressed() {
 		  region.visible = !region.visible;
 		});
 		
-		console.log("Toggled spawn region visibility");
+		//console.log("Toggled spawn region visibility");
 	  }
 
 	  if (key === ' ') {
@@ -119,19 +119,19 @@ function setup() {
 let DynamicWindowWidth = windowWidth;
 
 if (windowWidth <= 600){
-	console.log("XS Size detected"); 
+	//console.log("XS Size detected"); 
     DynamicWindowWidth = (windowHeight/16)*9;
 } else if (windowWidth >= 600 && windowWidth <= 1023) {
-	console.log("Small Size detected"); 
+	//console.log("Small Size detected"); 
     DynamicWindowWidth  = (windowHeight/16)*9;
 } else if (windowWidth >= 1023 && windowWidth <= 1339) {
-	console.log("Medium Size detected");
+	//console.log("Medium Size detected");
     DynamicWindowWidth  = (windowHeight/16)*9;
 } else if (windowWidth >= 1339 && windowWidth <= 2559) {
-	console.log("Large Size detected");
+	//console.log("Large Size detected");
     DynamicWindowWidth  = (windowHeight/16)*9;
 } else if (windowWidth >= 2560) {
-	console.log("Ultra Wide Size detected");
+	//console.log("Ultra Wide Size detected");
     DynamicWindowWidth  = (windowHeight/16)*9;
 } 
 
@@ -294,21 +294,28 @@ function xsScreenSettings() {
 	nose.x = (canvas.w/2); nose.y = (canvas.h/15)*12;
 	nose.collider = 'none'; nose.image = 'assets/-_nose.png';
 
-    // Logo Text 
+    // OG Logo Text 
 	logoText = new Sprite();
 	logoText.fill = color(0, 0, 0, 0);    // Completely transparent fill
 	logoText.stroke = color(0, 0, 0, 0);  // Remove stroke/borders
-	logoText.collider = 'none'; logoText.scale = 2; logoText.layer = 5;
+	logoText.collider = 'none'; logoText.scale = 2; 
 	logoText.x = (canvas.w/2); logoText.y = (canvas.h/18)*1.3;
 	logoText.textColor = '#550c5d';	logoText.font = 'assets/somatic.ttf';
 	logoText.text = 'ways of seeing'; logoText.textSize = 140;
+
+	// Logo Image
+	//logoImage = new Sprite();
+	//logoImage.x = (canvas.w/2); logoImage.y = (canvas.h/18)*1.3;
+	//logoImage.width = 140; logoImage.height = 140;
+	//logoImage.collider = 'none'; 
+	//logoImage.image = 'assets/-_logo.png'; logoImage.scale = 2;
 
 	// Author Text
 	authorText = new Sprite();
 	authorText.fill = color(0, 0, 0, 0);    // Completely transparent fill
 	authorText.stroke = color(0, 0, 0, 0);  // Remove stroke/borders
 	authorText.collider = 'none'; authorText.scale = 2; authorText.layer = 5;
-	authorText.x = (canvas.w/2); authorText.y = (canvas.h/18)*2.1;
+	authorText.x = (canvas.w/2); authorText.y = (canvas.h/18)*2.18;
 	authorText.textColor = '#550c5d';	authorText.font = 'assets/somatic.ttf';
 	authorText.text = 'by john berger'; authorText.textSize = 140/3; authorText.opacity = 0.2;
 
@@ -317,18 +324,28 @@ function xsScreenSettings() {
 	infoText.fill = color(0, 0, 0, 0);    // Completely transparent fill
 	infoText.stroke = color(0, 0, 0, 0);  // Remove stroke/borders
 	infoText.collider = 'none'; infoText.scale = 2; infoText.layer = 5;
-	infoText.x = (canvas.w/3.5); infoText.y = (canvas.h/18)*4.88;
-	infoText.text = '                              Perception varies from one person to another,\n                             by the way their brain processes information. \n\n                           Each ball corresponds to a word in the book,\n                          and the words are grouped by the way they\nare perceived by the brain. ';
+	infoText.x = (canvas.w/2); infoText.y = (canvas.h/18)*3.58;
+	infoText.text = 'Perception varies from one person to another,\nby the way their brain processes information.\n\nEach ball corresponds to a word in the book,\nand the words are grouped by the way they\nare perceived by the brain.';
 	infoText.textSize = 140/4; infoText.opacity = 0.2; infoText.textAlign = LEFT; infoText.textLeading = 2;
 	infoText.textColor = '#550c5d';	infoText.font = 'assets/somatic.ttf';
 
 	// Legend Texts
-	let horiOffset = 0; let vertOffset = -80;
+	legendText = new Sprite();
+	legendText.fill = color(0, 0, 0, 0);    // Completely transparent fill
+	legendText.stroke = color(0, 0, 0, 0);  // Remove stroke/borders
+	legendText.collider = 'none'; legendText.scale = 2; legendText.layer = 5;
+	legendText.x = (canvas.w/2); legendText.y = (canvas.h/18)*7.3;
+	legendText.textColor = '#550c5d';	legendText.font = 'assets/somatic.ttf';
+	legendText.text = 'Legend:'; legendText.textSize = 140/6; legendText.opacity = 1;
+
+	// Legend Bubble Array Variables
+	let horiOffset = 85; let vertOffset = 0; vertHeight = canvas.h/2.3; horiWidth = canvas.w/2;
+
 	// Pink Text
 	pinkText = new Sprite(); pinkText.diameter = 36;
 	pinkText.fill = '#ff0178'; pinkText.stroke = '#fff9ea'; pinkText.strokeWeight = 5;
 	pinkText.collider = 'none'; pinkText.scale = 2; pinkText.layer = 6;
-	pinkText.x = (canvas.w/2+440+horiOffset); pinkText.y = (canvas.h/18)*8.6+(vertOffset);
+	pinkText.x = (horiWidth)+(-horiOffset/2); pinkText.y = (vertHeight)+(vertOffset);
 	pinkText.text = 'Social'; pinkText.textSize = 16; pinkText.opacity = 1;
 	pinkText.textColor = '#fff9ea'; pinkText.font = 'assets/somatic.ttf';
 
@@ -336,7 +353,7 @@ function xsScreenSettings() {
 	purpleText = new Sprite(); purpleText.diameter = 36;
 	purpleText.fill = '#a138ff'; purpleText.stroke = '#fff9ea'; purpleText.strokeWeight = 5;
 	purpleText.collider = 'none'; purpleText.scale = 2; purpleText.layer = 6;
-	purpleText.x = (canvas.w/2+440+horiOffset); purpleText.y = (canvas.h/18)*8.6+(vertOffset*2);
+	purpleText.x = (horiWidth)+(horiOffset/2); purpleText.y = (vertHeight)+(vertOffset*2);
 	purpleText.text = 'Mental'; purpleText.textSize = 16; purpleText.opacity = 1;
 	purpleText.textColor = '#fff9ea'; purpleText.font = 'assets/somatic.ttf';
 
@@ -344,7 +361,7 @@ function xsScreenSettings() {
 	blueText = new Sprite(); blueText.diameter = 36;
 	blueText.fill = '#00a9ff'; blueText.stroke = '#fff9ea'; blueText.strokeWeight = 5;
 	blueText.collider = 'none'; blueText.scale = 2; blueText.layer = 6;
-	blueText.x = (canvas.w/2+440+horiOffset); blueText.y = (canvas.h/18)*8.6+(vertOffset*3);
+	blueText.x = (horiWidth)+(horiOffset*1.5); blueText.y = (vertHeight)+(vertOffset*3);
 	blueText.text = 'Spatial'; blueText.textSize = 16; blueText.opacity = 1;
 	blueText.textColor = '#fff9ea'; blueText.font = 'assets/somatic.ttf';
 
@@ -352,7 +369,7 @@ function xsScreenSettings() {
 	greenText = new Sprite(); greenText.diameter = 36;
 	greenText.fill = '#13ce0d'; greenText.stroke = '#fff9ea'; greenText.strokeWeight = 5;
 	greenText.collider = 'none'; greenText.scale = 2; greenText.layer = 6;
-	greenText.x = (canvas.w/2+440+horiOffset); greenText.y = (canvas.h/18)*8.6+(vertOffset*4);
+	greenText.x = (horiWidth)+(horiOffset*2.5); greenText.y = (vertHeight)+(vertOffset*4);
 	greenText.text = 'Visual'; greenText.textSize = 16; greenText.opacity = 1;
 	greenText.textColor = '#fff9ea'; greenText.font = 'assets/somatic.ttf';
 
@@ -360,7 +377,7 @@ function xsScreenSettings() {
 	orangeText = new Sprite(); orangeText.diameter = 36;
 	orangeText.fill = '#ff560a'; orangeText.stroke = '#fff9ea'; orangeText.strokeWeight = 5;
 	orangeText.collider = 'none'; orangeText.scale = 2; orangeText.layer = 6;
-	orangeText.x = (canvas.w/2+440+horiOffset); orangeText.y = (canvas.h/18)*8.6+(vertOffset*5);
+	orangeText.x = (horiWidth)+(-horiOffset*1.5); orangeText.y = (vertHeight)+(vertOffset*5);
 	orangeText.text = 'Time'; orangeText.textSize = 16; orangeText.opacity = 1;
 	orangeText.textColor = '#fff9ea'; orangeText.font = 'assets/somatic.ttf';
 
@@ -368,7 +385,7 @@ function xsScreenSettings() {
 	yellowText = new Sprite(); yellowText.diameter = 36;
 	yellowText.fill = '#ffb00b'; yellowText.stroke = '#fff9ea'; yellowText.strokeWeight = 5;
 	yellowText.collider = 'none'; yellowText.scale = 2; yellowText.layer = 6;
-	yellowText.x = (canvas.w/2+440+horiOffset); yellowText.y = (canvas.h/18)*8.6+(vertOffset*6);
+	yellowText.x = (horiWidth)+(-horiOffset*2.5); yellowText.y = (vertHeight)+(vertOffset*6);
 	yellowText.text = 'Danger'; yellowText.textSize = 16; yellowText.opacity = 1;
 	yellowText.textColor = '#fff9ea'; yellowText.font = 'assets/somatic.ttf';
 
@@ -546,7 +563,7 @@ function findNearestBall(manSprite) {
     }
 
     if (nearestBall) {
-        console.log("Found nearest ball:", nearestBall.color, "at", nearestBall.sprite.x, nearestBall.sprite.y);
+        //console.log("Found nearest ball:", nearestBall.color, "at", nearestBall.sprite.x, nearestBall.sprite.y);
     }
     return nearestBall;
 }
@@ -558,7 +575,7 @@ function handleBallEnteredPipe(ballColor) {
 	if (mouthstate === 0) {
 	  mouthstate = 1;
 	  mouthTimer = 0;
-	  console.log("First ball entered pipe: starting mouth animation");
+	  //console.log("First ball entered pipe: starting mouth animation");
 	  // Spawn a colored ball from the mouth
 	  spawnMouthBall(ballColor);
 	} 
@@ -567,7 +584,7 @@ function handleBallEnteredPipe(ballColor) {
 	  // If we're still in the first phase, skip ahead.
 	  if (mouthTimer < 31) {
 		mouthTimer = 31;
-		console.log("Additional ball: skipping to mouth_idle_reverse phase");
+		//console.log("Additional ball: skipping to mouth_idle_reverse phase");
 	  }
 	  // Optionally, you can also spawn another ball here:
 	  spawnMouthBall(ballColor);
@@ -617,11 +634,12 @@ function handleBallEnteredPipe(ballColor) {
 	}
   
 	// Log for debugging
-	console.log("Spawning mouth ball with color:", ballColor, "mapped to:", hexColor);
+	//console.log("Spawning mouth ball with color:", ballColor, "mapped to:", hexColor);
 	newBall.colour = hexColor; newBall.collider = 'dynamic'; 
 	newBall.collide(boundarybox); newBall.collide(headbox);
 	newBall.velocity.x = random(-10, 10); newBall.velocity.y = random(-30, -15);
 	newBall.strokeWeight = 0; mouthBallsGroup.collides(mouthBallsGroup); mouthBallsGroup.collide(invisborder);
+
 	// Set a custom gravity (negative value for upward acceleration)
 	newBall.myGravity = -0.2;
 	
@@ -633,8 +651,7 @@ function handleBallEnteredPipe(ballColor) {
 
 function draw() {
 	textFont(somaticFont);
-	logoText.layer = 8;
-	
+
 	if (millis() - lastCycleTime > cycleInterval) {
 		lastCycleTime = millis();
 		// Optionally spawn a ball for the current word before cycling:
@@ -706,7 +723,7 @@ if (pipetimer >= 1) {
 //Eyes Timer
 if (eyesstate>= 1) {
 	eyesTimer++;
-	console.log("Eyes Timer:", eyesTimer);
+	////console.log("Eyes Timer:", eyesTimer);
 	if (eyesTimer >= 1 && eyesTimer <= 41) {
 		eyes.changeAni('eyes_r2l');
 	} else if (eyesTimer >= 42 && eyesTimer <= 62) {
@@ -774,7 +791,7 @@ if (man1state == 1) {
                 man1state = 2;
                 man1timer = 0;
                 man1NeedsNewTarget = true;  // Reset wander target when transitioning
-                console.log("( MAN 1 ) Ball detected within range, transitioning to walking state");
+                //console.log("( MAN 1 ) Ball detected within range, transitioning to walking state");
             }
         } else {
             man1timer = 0;
@@ -795,7 +812,7 @@ if (man1state == 1) {
     if (!nearest) {
         man1state = 1;
         man1NeedsNewTarget = true;
-        console.log("( MAN 1 ) Ball no longer exists, reverting to wander");
+        //console.log("( MAN 1 ) Ball no longer exists, reverting to wander");
     } else {
         // Continue moving toward the ball
         man1.moveTo(nearest.sprite.x, nearest.sprite.y, 2);
@@ -806,7 +823,7 @@ if (man1state == 1) {
             man1collect(man1);
             // Make sure the ball color is set for this man only
             man1state = 3;
-            console.log("( MAN 1 ) Collected ball!");
+            //console.log("( MAN 1 ) Collected ball!");
         }
     }
 
@@ -832,7 +849,7 @@ if (man1state == 1) {
 		pipe.changeAni("pipe_" + man1.ballColor);
 		handleBallEnteredPipe(man1.ballColor);
 		man1.ballColor = null;  // Clear the ball color after dropping
-        console.log("( MAN 1 ) Reached pipe; starting drop animation");
+        //console.log("( MAN 1 ) Reached pipe; starting drop animation");
     }
 } else if (man1state == 5) {
     // Drop animation; use stored ballColor or default
@@ -844,7 +861,7 @@ if (man1state == 1) {
         man1timer = 0;
         // Clear ballColor for man1 only
         man1.ballColor = null;
-        console.log("( MAN 1 ) Drop complete; returning to idle");
+        //console.log("( MAN 1 ) Drop complete; returning to idle");
     }
 } else {}
 
@@ -865,7 +882,7 @@ if (man2state == 1) {
                 man2state = 2;
                 man2timer = 0;
                 man2NeedsNewTarget = true;  // Reset wander target when transitioning
-                console.log("( MAN 2 ) Ball detected within range, transitioning to walking state");
+                //console.log("( MAN 2 ) Ball detected within range, transitioning to walking state");
             }
         } else {
             man2timer = 0;
@@ -886,7 +903,7 @@ if (man2state == 1) {
     if (!nearest) {
         man2state = 1;
         man2NeedsNewTarget = true;
-        console.log("( MAN 2 ) Ball no longer exists, reverting to wander");
+        //console.log("( MAN 2 ) Ball no longer exists, reverting to wander");
     } else {
         // Continue moving toward the ball
         man2.moveTo(nearest.sprite.x, nearest.sprite.y, 2);
@@ -897,7 +914,7 @@ if (man2state == 1) {
             man2collect(man2);
             // Make sure the ball color is set for this man only
             man2state = 3;
-            console.log("( MAN 2 ) Collected ball!");
+            //console.log("( MAN 2 ) Collected ball!");
         }
     }
 
@@ -923,7 +940,7 @@ if (man2state == 1) {
 		pipe.changeAni("pipe_" + man2.ballColor);
 		handleBallEnteredPipe(man2.ballColor);
 		man2.ballColor = null;  // Clear the ball color after dropping
-        console.log("( MAN 2 ) Reached pipe; starting drop animation");
+        //console.log("( MAN 2 ) Reached pipe; starting drop animation");
     }
 } else if (man2state == 5) {
     // Drop animation; use stored ballColor or default
@@ -935,7 +952,7 @@ if (man2state == 1) {
         man2timer = 0;
         // Clear ballColor for man1 only
         man2.ballColor = null;
-        console.log("( MAN 2 ) Drop complete; returning to idle");
+        //console.log("( MAN 2 ) Drop complete; returning to idle");
     }
 } else {}
 
@@ -955,7 +972,7 @@ if (man3state == 1) {
                 man3state = 2;
                 man3timer = 0;
                 man3NeedsNewTarget = true;  // Reset wander target when transitioning
-                console.log("( MAN 3 ) Ball detected within range, transitioning to walking state");
+                //console.log("( MAN 3 ) Ball detected within range, transitioning to walking state");
             }
         } else {
             man3timer = 0;
@@ -976,7 +993,7 @@ if (man3state == 1) {
     if (!nearest) {
         man3state = 1;
         man3NeedsNewTarget = true;
-        console.log("( MAN 3 ) Ball no longer exists, reverting to wander");
+        //console.log("( MAN 3 ) Ball no longer exists, reverting to wander");
     } else {
         // Continue moving toward the ball
         man3.moveTo(nearest.sprite.x, nearest.sprite.y, 2);
@@ -987,7 +1004,7 @@ if (man3state == 1) {
             man3collect(man3);
             // Make sure the ball color is set for this man only
             man3state = 3;
-            console.log("( MAN 3 ) Collected ball!");
+            //console.log("( MAN 3 ) Collected ball!");
         }
     }
 
@@ -1013,7 +1030,7 @@ if (man3state == 1) {
 		pipe.changeAni("pipe_" + man3.ballColor);
 		handleBallEnteredPipe(man3.ballColor);
 		man3.ballColor = null;  // Clear the ball color after dropping
-        console.log("( MAN 3 ) Reached pipe; starting drop animation");
+        //console.log("( MAN 3 ) Reached pipe; starting drop animation");
     }
 } else if (man3state == 5) {
     // Drop animation; use stored ballColor or default
@@ -1025,7 +1042,7 @@ if (man3state == 1) {
         man3timer = 0;
         // Clear ballColor for man1 only
         man3.ballColor = null;
-        console.log("( MAN 3 ) Drop complete; returning to idle");
+        //console.log("( MAN 3 ) Drop complete; returning to idle");
     }
 } else {}
 
@@ -1045,7 +1062,7 @@ if (man4state == 1) {
                 man4state = 2;
                 man4timer = 0;
                 man4NeedsNewTarget = true;  // Reset wander target when transitioning
-                console.log("( MAN 4 ) Ball detected within range, transitioning to walking state");
+                //console.log("( MAN 4 ) Ball detected within range, transitioning to walking state");
             }
         } else {
             man4timer = 0;
@@ -1066,7 +1083,7 @@ if (man4state == 1) {
     if (!nearest) {
         man4state = 1;
         man4NeedsNewTarget = true;
-        console.log("( MAN 4 ) Ball no longer exists, reverting to wander");
+        //console.log("( MAN 4 ) Ball no longer exists, reverting to wander");
     } else {
         // Continue moving toward the ball
         man4.moveTo(nearest.sprite.x, nearest.sprite.y, 2);
@@ -1077,7 +1094,7 @@ if (man4state == 1) {
             man4collect(man4);
             // Make sure the ball color is set for this man only
             man4state = 3;
-            console.log("( MAN 4 ) Collected ball!");
+            //console.log("( MAN 4 ) Collected ball!");
         }
     }
 
@@ -1103,7 +1120,7 @@ if (man4state == 1) {
 		pipe.changeAni("pipe_" + man4.ballColor);
 		handleBallEnteredPipe(man4.ballColor);
 		man4.ballColor = null;  // Clear the ball color after dropping
-        console.log("( MAN 4 ) Reached pipe; starting drop animation");
+        //console.log("( MAN 4 ) Reached pipe; starting drop animation");
     }
 } else if (man4state == 5) {
     // Drop animation; use stored ballColor or default
@@ -1115,7 +1132,7 @@ if (man4state == 1) {
         man4timer = 0;
         // Clear ballColor for man1 only
         man4.ballColor = null;
-        console.log("( MAN 4 ) Drop complete; returning to idle");
+        //console.log("( MAN 4 ) Drop complete; returning to idle");
     }
 } else {}
 
@@ -1135,7 +1152,7 @@ if (man5state == 1) {
                 man5state = 2;
                 man5timer = 0;
                 man5NeedsNewTarget = true;  // Reset wander target when transitioning
-                console.log("( MAN 5 ) Ball detected within range, transitioning to walking state");
+                //console.log("( MAN 5 ) Ball detected within range, transitioning to walking state");
             }
         } else {
             man5timer = 0;
@@ -1156,7 +1173,7 @@ if (man5state == 1) {
     if (!nearest) {
         man5state = 1;
         man5NeedsNewTarget = true;
-        console.log("( MAN 5 ) Ball no longer exists, reverting to wander");
+        //console.log("( MAN 5 ) Ball no longer exists, reverting to wander");
     } else {
         // Continue moving toward the ball
         man5.moveTo(nearest.sprite.x, nearest.sprite.y, 2);
@@ -1167,7 +1184,7 @@ if (man5state == 1) {
             man5collect(man5);
             // Make sure the ball color is set for this man only
             man5state = 3;
-            console.log("( MAN 5 ) Collected ball!");
+            //console.log("( MAN 5 ) Collected ball!");
         }
     }
 
@@ -1193,7 +1210,7 @@ if (man5state == 1) {
 		pipe.changeAni("pipe_" + man5.ballColor);
 		handleBallEnteredPipe(man5.ballColor);
 		man5.ballColor = null;  // Clear the ball color after dropping
-        console.log("( MAN 5 ) Reached pipe; starting drop animation");
+        //console.log("( MAN 5 ) Reached pipe; starting drop animation");
     }
 } else if (man5state == 5) {
     // Drop animation; use stored ballColor or default
@@ -1205,21 +1222,21 @@ if (man5state == 1) {
         man5timer = 0;
         // Clear ballColor for man1 only
         man5.ballColor = null;
-        console.log("( MAN 5 ) Drop complete; returning to idle");
+        //console.log("( MAN 5 ) Drop complete; returning to idle");
     }
 } else {}
 
 function man1collect(man1) {
     let nearest = findNearestBall(man1);
     if (nearest && !nearest.sprite.pickedUp) {
-        console.log("Man 1 collecting " + nearest.color + " ball");
+        //console.log("Man 1 collecting " + nearest.color + " ball");
         // Set man1's ballColor property rather than a global
         man1.ballColor = nearest.color;
         nearest.sprite.pickedUp = true;  // Mark as collected
         nearest.sprite.remove();
     } else {
         // If the ball isn't there, revert to idle/wander state
-        console.log("Ball not found during collection, reverting to wander");
+        //console.log("Ball not found during collection, reverting to wander");
         man1state = 1;
         man1NeedsNewTarget = true;
     }
@@ -1228,14 +1245,14 @@ function man1collect(man1) {
 function man2collect(man2) {
     let nearest = findNearestBall(man2);
     if (nearest && !nearest.sprite.pickedUp) {
-        console.log("Man 2 collecting " + nearest.color + " ball");
+        //console.log("Man 2 collecting " + nearest.color + " ball");
         // Set man1's ballColor property rather than a global
         man2.ballColor = nearest.color;
         nearest.sprite.pickedUp = true;  // Mark as collected
         nearest.sprite.remove();
     } else {
         // If the ball isn't there, revert to idle/wander state
-        console.log("Ball not found during collection, reverting to wander");
+        //console.log("Ball not found during collection, reverting to wander");
         man2state = 1;
         man2NeedsNewTarget = true;
     }
@@ -1244,14 +1261,14 @@ function man2collect(man2) {
 function man3collect(man3) {
     let nearest = findNearestBall(man3);
     if (nearest && !nearest.sprite.pickedUp) {
-        console.log("Man 3 collecting " + nearest.color + " ball");
+        //console.log("Man 3 collecting " + nearest.color + " ball");
         // Set man1's ballColor property rather than a global
         man3.ballColor = nearest.color;
         nearest.sprite.pickedUp = true;  // Mark as collected
         nearest.sprite.remove();
     } else {
         // If the ball isn't there, revert to idle/wander state
-        console.log("Ball not found during collection, reverting to wander");
+        //console.log("Ball not found during collection, reverting to wander");
         man3state = 1;
         man3NeedsNewTarget = true;
     }
@@ -1260,14 +1277,14 @@ function man3collect(man3) {
 function man4collect(man4) {
     let nearest = findNearestBall(man4);
     if (nearest && !nearest.sprite.pickedUp) {
-        console.log("Man 4 collecting " + nearest.color + " ball");
+        //console.log("Man 4 collecting " + nearest.color + " ball");
         // Set man1's ballColor property rather than a global
         man4.ballColor = nearest.color;
         nearest.sprite.pickedUp = true;  // Mark as collected
         nearest.sprite.remove();
     } else {
         // If the ball isn't there, revert to idle/wander state
-        console.log("Ball not found during collection, reverting to wander");
+        //console.log("Ball not found during collection, reverting to wander");
         man4state = 1;
         man4NeedsNewTarget = true;
     }
@@ -1276,14 +1293,14 @@ function man4collect(man4) {
 function man5collect(man5) {
     let nearest = findNearestBall(man5);
     if (nearest && !nearest.sprite.pickedUp) {
-        console.log("Man 5 collecting " + nearest.color + " ball");
+        //console.log("Man 5 collecting " + nearest.color + " ball");
         // Set man1's ballColor property rather than a global
         man5.ballColor = nearest.color;
         nearest.sprite.pickedUp = true;  // Mark as collected
         nearest.sprite.remove();
     } else {
         // If the ball isn't there, revert to idle/wander state
-        console.log("Ball not found during collection, reverting to wander");
+        //console.log("Ball not found during collection, reverting to wander");
         man5state = 1;
         man5NeedsNewTarget = true;
     }	
@@ -1319,7 +1336,7 @@ function wander1(sprite) {
 	if (!isInsideBrainbox(sprite)) {
 	  man1WanderTarget = getRandomBrainboxTarget();
 	  man1NeedsNewTarget = false;
-	  console.log("wander1: Off brainbox, new target:", man1WanderTarget.x, man1WanderTarget.y);
+	  //console.log("wander1: Off brainbox, new target:", man1WanderTarget.x, man1WanderTarget.y);
 	}
 	
 	// Resting behavior
@@ -1330,7 +1347,7 @@ function wander1(sprite) {
 		man1IsResting = false;
 		man1RestTimer = 0;
 		man1NeedsNewTarget = true;
-		console.log("wander1: Rest complete, resuming wandering");
+		//console.log("wander1: Rest complete, resuming wandering");
 	  }
 	  return;
 	}
@@ -1341,13 +1358,13 @@ function wander1(sprite) {
 	  if (man1WalkCycles >= 3) {
 		man1IsResting = true;
 		man1WalkCycles = 0;
-		console.log("wander1: Taking a rest");
+		//console.log("wander1: Taking a rest");
 		return;
 	  }
 	  // Generate a new random target inside the brainbox
 	  man1WanderTarget = getRandomBrainboxTarget();
 	  man1NeedsNewTarget = false;
-	  console.log("wander1: New wander target:", man1WanderTarget.x, man1WanderTarget.y);
+	  //console.log("wander1: New wander target:", man1WanderTarget.x, man1WanderTarget.y);
 	}
 	
 	sprite.changeAni('walk_loop');
@@ -1360,7 +1377,7 @@ function wander1(sprite) {
 	if (!isInsideBrainbox(sprite)) {
 	  man2WanderTarget = getRandomBrainboxTarget();
 	  man2NeedsNewTarget = false;
-	  console.log("wander2: Off brainbox, new target:", man2WanderTarget.x, man2WanderTarget.y);
+	  //console.log("wander2: Off brainbox, new target:", man2WanderTarget.x, man2WanderTarget.y);
 	}
 	
 	if (man2IsResting) {
@@ -1370,7 +1387,7 @@ function wander1(sprite) {
 		man2IsResting = false;
 		man2RestTimer = 0;
 		man2NeedsNewTarget = true;
-		console.log("wander2: Rest complete, resuming wandering");
+		//console.log("wander2: Rest complete, resuming wandering");
 	  }
 	  return;
 	}
@@ -1380,12 +1397,12 @@ function wander1(sprite) {
 	  if (man2WalkCycles >= 3) {
 		man2IsResting = true;
 		man2WalkCycles = 0;
-		console.log("wander2: Taking a rest");
+		//console.log("wander2: Taking a rest");
 		return;
 	  }
 	  man2WanderTarget = getRandomBrainboxTarget();
 	  man2NeedsNewTarget = false;
-	  console.log("wander2: New wander target:", man2WanderTarget.x, man2WanderTarget.y);
+	  //console.log("wander2: New wander target:", man2WanderTarget.x, man2WanderTarget.y);
 	}
 	
 	sprite.changeAni('walk_loop');
@@ -1396,7 +1413,7 @@ function wander1(sprite) {
 	if (!isInsideBrainbox(sprite)) {
 	  man3WanderTarget = getRandomBrainboxTarget();
 	  man3NeedsNewTarget = false;
-	  console.log("wander3: Off brainbox, new target:", man3WanderTarget.x, man3WanderTarget.y);
+	  //console.log("wander3: Off brainbox, new target:", man3WanderTarget.x, man3WanderTarget.y);
 	}
 	
 	if (man3IsResting) {
@@ -1406,7 +1423,7 @@ function wander1(sprite) {
 		man3IsResting = false;
 		man3RestTimer = 0;
 		man3NeedsNewTarget = true;
-		console.log("wander3: Rest complete, resuming wandering");
+		//console.log("wander3: Rest complete, resuming wandering");
 	  }
 	  return;
 	}
@@ -1416,12 +1433,12 @@ function wander1(sprite) {
 	  if (man3WalkCycles >= 3) {
 		man3IsResting = true;
 		man3WalkCycles = 0;
-		console.log("wander3: Taking a rest");
+		//console.log("wander3: Taking a rest");
 		return;
 	  }
 	  man3WanderTarget = getRandomBrainboxTarget();
 	  man3NeedsNewTarget = false;
-	  console.log("wander3: New wander target:", man3WanderTarget.x, man3WanderTarget.y);
+	  //console.log("wander3: New wander target:", man3WanderTarget.x, man3WanderTarget.y);
 	}
 	
 	sprite.changeAni('walk_loop');
@@ -1432,7 +1449,7 @@ function wander1(sprite) {
 	if (!isInsideBrainbox(sprite)) {
 	  man4WanderTarget = getRandomBrainboxTarget();
 	  man4NeedsNewTarget = false;
-	  console.log("wander4: Off brainbox, new target:", man4WanderTarget.x, man4WanderTarget.y);
+	  //console.log("wander4: Off brainbox, new target:", man4WanderTarget.x, man4WanderTarget.y);
 	}
 	
 	if (man4IsResting) {
@@ -1442,7 +1459,7 @@ function wander1(sprite) {
 		man4IsResting = false;
 		man4RestTimer = 0;
 		man4NeedsNewTarget = true;
-		console.log("wander4: Rest complete, resuming wandering");
+		//console.log("wander4: Rest complete, resuming wandering");
 	  }
 	  return;
 	}
@@ -1452,12 +1469,12 @@ function wander1(sprite) {
 	  if (man4WalkCycles >= 3) {
 		man4IsResting = true;
 		man4WalkCycles = 0;
-		console.log("wander4: Taking a rest");
+		//console.log("wander4: Taking a rest");
 		return;
 	  }
 	  man4WanderTarget = getRandomBrainboxTarget();
 	  man4NeedsNewTarget = false;
-	  console.log("wander4: New wander target:", man4WanderTarget.x, man4WanderTarget.y);
+	  //console.log("wander4: New wander target:", man4WanderTarget.x, man4WanderTarget.y);
 	}
 	
 	sprite.changeAni('walk_loop');
@@ -1468,7 +1485,7 @@ function wander1(sprite) {
 	if (!isInsideBrainbox(sprite)) {
 	  man5WanderTarget = getRandomBrainboxTarget();
 	  man5NeedsNewTarget = false;
-	  console.log("wander5: Off brainbox, new target:", man5WanderTarget.x, man5WanderTarget.y);
+	  //console.log("wander5: Off brainbox, new target:", man5WanderTarget.x, man5WanderTarget.y);
 	}
 	
 	if (man5IsResting) {
@@ -1478,7 +1495,7 @@ function wander1(sprite) {
 		man5IsResting = false;
 		man5RestTimer = 0;
 		man5NeedsNewTarget = true;
-		console.log("wander5: Rest complete, resuming wandering");
+		//console.log("wander5: Rest complete, resuming wandering");
 	  }
 	  return;
 	}
@@ -1488,12 +1505,12 @@ function wander1(sprite) {
 	  if (man5WalkCycles >= 3) {
 		man5IsResting = true;
 		man5WalkCycles = 0;
-		console.log("wander5: Taking a rest");
+		//console.log("wander5: Taking a rest");
 		return;
 	  }
 	  man5WanderTarget = getRandomBrainboxTarget();
 	  man5NeedsNewTarget = false;
-	  console.log("wander5: New wander target:", man5WanderTarget.x, man5WanderTarget.y);
+	  //console.log("wander5: New wander target:", man5WanderTarget.x, man5WanderTarget.y);
 	}
 	
 	sprite.changeAni('walk_loop');
@@ -1707,7 +1724,7 @@ function getRandomPointInCircle(center, radius) {
  */
 function spawnBallForWord(word) {
 	let ballType = determineBallType(word);
-	console.log("Processing word:", word, "=> spawning a", ballType, "ball");
+	//console.log("Processing word:", word, "=> spawning a", ballType, "ball");
 
 	// Call the correct spawning function based on the ball type.
 	if (ballType === "pink")
