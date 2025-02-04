@@ -698,18 +698,6 @@ function draw() {
 		currentWordIndex = (currentWordIndex + 1) % words.length;
 	  }
 
-	    // Update the fade-in transition for each ball in mouthBallsGroup.
-  mouthBallsGroup.forEach(function(ball) {
-    // If the ball has a fadeOpacity property and it's not yet fully opaque:
-    if (ball.fadeOpacity !== undefined && ball.fadeOpacity < 255) {
-      ball.fadeOpacity = constrain(ball.fadeOpacity + ball.fadeSpeed, 0, 255);
-      // Update the color with the new alpha value.
-      let c = color(ball.colour);
-      c.setAlpha(ball.fadeOpacity);
-      ball.shapeColor = c;
-    }
-  });
-
  // Dynamically scale the text size based on the word length
   if (words.length > 0) {
     let currentWord = words[currentWordIndex];
