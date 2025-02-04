@@ -1788,17 +1788,6 @@ function getRandomPointInCircle(center, radius) {
 	  ball = spawnNoBall(); // fallback: no ball spawned
 	}
 	
-	// If a ball was spawned, initialize fade-in properties.
-	// Start completely transparent and use fadeSpeed to control the fade rate.
-	if (ball) {
-	  ball.fadeOpacity = 0;   // Custom property to track the current alpha
-	  ball.fadeSpeed = 1;     // Increase this by 5 each frame (adjust as needed)
-	  
-	  // Set the ball's color with initial transparency.
-	  let c = color(ball.colour); // ball.colour should hold your hex color string (e.g. "#ff0178")
-	  c.setAlpha(ball.fadeOpacity);
-	  ball.shapeColor = c;
-	}
   }
   
   /**
