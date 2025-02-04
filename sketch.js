@@ -21,6 +21,7 @@ let words = [];          // Array to hold all words of the essay
 let currentWordIndex = 0; // To keep track of which word to display
 let cycleInterval = 1000;   // Interval (in milliseconds) between word changes (e.g., 2000ms = 2 seconds)
 let lastCycleTime = 0;      // Store the time the word was last updated
+let autoCyclePaused = false; 
 let essay = "Seeing comes before words. The child looks and recognizes before it can speak. But there is also another sense in which seeing comes before words. It is seeing which establishes our place in the surrounding world; we explain that world with words, but words can never undo the fact that we are surrounded by it. The relation between what we see and what we know is never settled. Each evening we see the sunset. We know that the earth is turning away from it. Yet the knowledge, the explanation, never quite fits the sight. The Surrealist painter Magritte commented on this always present gap between words and seeing in a painting called The Key of Dreams. The way we see things is affected by what we know or what we believe. In the Middle Ages when men believed in the physical existence of Hell the sight of fire must have meant something different from what it means today. Nevertheless their idea of Hell owed a lot to the sight of fire consuming and the ashes remaining - as well as to their experience of the pain of burns. When in love, the sight of the beloved has a completeness which no words and no embrace can match : a completeness which only the act of making love can temporarily accommodate. Yet this seeing which comes before words, and can never be quite covered by them, is not a question of mechanically reacting to stimuli. (It can only be thought of in this way if one isolates the small part of the process which concerns the eye's retina.) We only see what we look at. To look is an act of choice. As a result of this act, what we see is brought within our reach - though not necessarily within arm's reach. To touch something is to situate oneself in relation to it. Close your eyes, move round the room and notice how the faculty of touch is like a static, limited form of sight. We never look at just one thing; we are always looking at the relation between things and ourselves. Our vision is continually active, continually moving, continually holding things in a circle around itself, constituting what is present to us as we are. Soon after we can see, we are aware that we can also be seen. The eye of the other combines with our own eye to make it fully credible that we are part of the visible world. If we accept that we can see that hill over there, we propose that from that hill we can be seen. The reciprocal nature of vision is more fundamental than that of spoken dialogue. And often dialogue is an attempt to verbalize this - an attempt to explain how, either metaphorically or literally, 'you see things', and an attempt to discover how 'he sees things'. In the sense in which we use the word in this book, all images are man-made. An image is a sight which has been recreated or reproduced. It is an appearance, or a set of appearances, which has been detached from the place and time in which it first made its appearance and preserved - for a few moments or a few centuries. Every image embodies a way of seeing. Even a photograph. For photographs are not, as is often assumed, a mechanical record. Every time we look at a photograph, we are aware, however slightly, of the photographer selecting that sight from an infinity of other possible sights. This is true even in the most casual family snapshot. The photographer's way of seeing is reflected in his choice of subject. The painter's way of seeing is reconstituted by the marks he makes on the canvas or paper. Yet, although every image embodies a way of seeing, our perception or appreciation of an image depends also upon our own way of seeing. It may be, for example, that Sheila is one figure among twenty; but for our own reasons she is the one we have eyes for. Images were first made to conjure up the appearances of something that was absent. Gradually it became evident that an image could outlast what it represented; it then showed how something or somebody had once looked - and thus by implication how the subject had once been seen by other people. Later still the specific vision of the image-maker was also recognized as part of the record. An image became a record of how X had seen V. This was the result of an increasing consciousness of individuality, accompanying an increasing awareness of history. It would be rash to try to date this last development precisely. But certainly in Europe such consciousness has existed since the beginning of the Renaissance. No other kind of relic or text from the past can offer such a direct testimony about the world which surrounded other people at other times. In this respect images are more precise and richer than literature. To say this is not to deny the expressive or imaginative quality of art, treating it as mere documentary evidence; the more imaginative the work, the more profoundly it allows us to share the artist's experience of the visible. Yet when an image is presented as a work of art, the way people look at it is affected by a whole series of learnt assumptions about art. Assumptions concerning: Beauty , Truth, Genius, Civilisation, Form, Status, Taste, etc. Many of these assumptions no longer accord with the world as it is. (The world-as-it-is is more than pure objective fact, it includes consciousness.) Out of true with the present, these assumptions obscure the past. They mystify rather than clarify. The past is never there waiting to be discovered, to be recognized for exactly what it is. History always constitutes the relation between a present and its past. Consequently fear of the present leads to mystification of the past. The past is not for living in; it is a well of conclusions from which we draw in order to act. Cultural mystification of the past entails a double loss. Works of art are made unnecessarily remote. And the past offers us fewer conclusions to complete in action. When we 'see' a landscape, we situate ourselves in it. If we 'saw' the art of the past, we would situate ourselves in history. When we are prevented from seeing it, we are being deprived of the history which belongs to us. Who benefits from this deprivation? In the end, the art of the past is being mystified because a privileged minority is striving to invent a history which can retrospectively justify the role of the ruling classes, and such a justification can no longer make sense in modern terms. And so, inevitably, it mystifies. Let us consider a typical example of such mystification. A two-volume study was recently published on Frans Hals.' It is the authoritative work to date on this painter. As a book of specialized art history it is no better and no worse than the average. The last two great paintings by Frans Hals portray the Governors and the Governesses of an Alms House for old paupers in the Dutch seventeenth-century city of Haarlem. They were officially commissioned portraits. Hals, an old man of over eighty, was destitute. Most of his life he had been in debt. During the winter of 1664, the year he began painting these pictures, he obtained three loads of peat on public charity, otherwise he would have frozen to death. Those who now sat for him were administrators of such public charity. The author records these facts and then explicitly says that it would be incorrect to read into the paintings any criticism of the sitters. There is no evidence, he says, that Hals painted them in a spirit of bitterness. The author considers them, however, remarkable works of art and explains why. Here he writes of the Regentesses: Each woman speaks to us of the human condition with equal importance. Each woman stands out with equal clarity against the enormous deep harmonious fusion unforgettable contrast powerful a peak of breadth and strength The compositional unity of a painting contributes fundamentally to the power of its image. It is reasonable to consider a painting's composition. But here the composition is written about as though it were in itself the emotional charge of the painting. Terms like harmonious fusion, unforgettable contrast, reaching a peak of breadth and strength transfer the emotion provoked by the image from the plane of lived experience, to that of disinterested 'art appreciation'. All conflict disappears. One is left with the unchanging 'human condition', and the painting considered as a marvellously made object.";
 
 
@@ -40,8 +41,18 @@ function preload() {
 	somaticFont = loadFont("assets/somatic.ttf");
 
 	// sound preload
-	bgm = loadSound("sfx/clear_vision.mp3"); bgm.setVolume(0.1); 
-
+	bgm = loadSound("sfx/clear_vision.mp3"); bgm.setVolume(0.08); 
+    bloop0 = loadSound("sfx/bloop1.mp3"); bloop0.setVolume(0.15);
+	bloop1 = loadSound("sfx/bloop2.mp3"); bloop1.setVolume(0.15);
+	bloop2 = loadSound("sfx/bloop3.mp3"); bloop2.setVolume(0.15);
+	bloop3 = loadSound("sfx/bloop4.mp3"); bloop3.setVolume(0.15);
+	pop0 = loadSound("sfx/pop1.mp3"); pop0.setVolume(0.06);
+	pop1 = loadSound("sfx/pop1.mp3"); pop1.setVolume(0.06);
+	pop2 = loadSound("sfx/pop2.mp3"); pop2.setVolume(0.06);
+	pop3 = loadSound("sfx/pop3.mp3"); pop3.setVolume(0.06);
+	pop4 = loadSound("sfx/pop4.mp3"); pop4.setVolume(0.06);
+	pop5 = loadSound("sfx/pop5.mp3"); pop5.setVolume(0.06);
+	
 	//sprite preload
 	man1 = new Sprite(0, 0, 28.8, 74.3 ); man1.spriteSheet = 'assets/-_man_sprite.png'; man1.anis.frameDelay = 10; 
 	man1.addAnis({ pickup_reverse: { row: 0, frames: 7 }, pickup_pink: { row: 1, frames: 7 }, pickup_purple: { row: 2, frames: 7 }, pickup_blue: { row: 3, frames: 7 }, pickup_green: { row: 4, frames: 7 }, pickup_orange: { row: 5, frames: 7 }, pickup_yellow: { row: 6, frames: 7 }, walk_pink: { row: 7, frames: 12 }, walk_purple: { row: 8, frames: 12 }, walk_blue: { row: 9, frames: 12 }, walk_green: { row: 10, frames: 12 }, walk_orange: { row: 11, frames: 12 }, walk_yellow: { row: 12, frames: 12 }, walk_loop: { row: 13, frames: 12 }, walk_idle: { row: 13, frames: 1 }, pickup_reverse_default: { row: 0, frames: 7 }, pickup_default: { row: 13, frames: 1 }}); man1.changeAni('walk_idle'); 
@@ -105,14 +116,27 @@ function keyPressed() {
 		//console.log("Toggled spawn region visibility");
 	  }
 
-	  if (key === ' ') {
-		let currentWord = words[currentWordIndex];
-		spawnBallForWord(currentWord);
-		
-		// Advance to the next word (loop back to beginning if at the end)
-		currentWordIndex = (currentWordIndex + 1) % words.length;
+	  if(key === ' ') {
+		autoCyclePaused = !autoCyclePaused;
+		console.log("Auto cycle paused:", autoCyclePaused);
 	  }
 } 
+
+function update(){
+	if (kb.presses('right')) {
+	  let currentWord = words[currentWordIndex];
+	  spawnBallForWord(currentWord);
+	  
+	  // Advance to the next word (loop back to the beginning if at the end)
+	  currentWordIndex = (currentWordIndex + 1) % words.length;
+	} else if (kb.presses('left')) {
+	  let currentWord = words[currentWordIndex];
+	  spawnBallForWord(currentWord);
+	  
+	  // Reverse to the previous word. Adding words.length ensures the result is non-negative.
+	  currentWordIndex = (currentWordIndex - 1 + words.length) % words.length;
+	}
+  }
 
 function setup() {
 let DynamicWindowWidth = windowWidth;
@@ -596,7 +620,7 @@ function handleBallEnteredPipe(ballColor) {
   function spawnMouthBall(ballColor) {
 	// Create a new ball sprite at the mouth's current position.
 	let newBall = createSprite(mouth.x, mouth.y, random(30, 20));
-	
+	playRandomBloop()
 	// Determine the hex value of the color.
 	let hexColor;
 	if (typeof ballColor === "string") {
@@ -659,13 +683,13 @@ function draw() {
 		initial = 1;
 	}
 
-	bgmTimer--; console.log(bgmTimer);
+	bgmTimer--; //console.log(bgmTimer);
 	if (bgmTimer <= 1) {
 		playBGM();
-		bgmTimer = 12600;
+		bgmTimer = 12300;
 	} 
 
-	if (millis() - lastCycleTime > cycleInterval) {
+	if (!autoCyclePaused && millis() - lastCycleTime > cycleInterval) {
 		lastCycleTime = millis();
 		// Optionally spawn a ball for the current word before cycling:
 		spawnBallForWord(words[currentWordIndex]);
@@ -673,6 +697,18 @@ function draw() {
 		// Cycle to the next word, wrapping around when reaching the end.
 		currentWordIndex = (currentWordIndex + 1) % words.length;
 	  }
+
+	    // Update the fade-in transition for each ball in mouthBallsGroup.
+  mouthBallsGroup.forEach(function(ball) {
+    // If the ball has a fadeOpacity property and it's not yet fully opaque:
+    if (ball.fadeOpacity !== undefined && ball.fadeOpacity < 255) {
+      ball.fadeOpacity = constrain(ball.fadeOpacity + ball.fadeSpeed, 0, 255);
+      // Update the color with the new alpha value.
+      let c = color(ball.colour);
+      c.setAlpha(ball.fadeOpacity);
+      ball.shapeColor = c;
+    }
+  });
 
  // Dynamically scale the text size based on the word length
   if (words.length > 0) {
@@ -1736,25 +1772,45 @@ function getRandomPointInCircle(center, radius) {
  * This function takes a word from the essay, determines its associated brain region
  * (and thus which color ball it should spawn), and then calls the appropriate spawn function.
  */
-function spawnBallForWord(word) {
+  function spawnBallForWord(word) {
 	let ballType = determineBallType(word);
 	//console.log("Processing word:", word, "=> spawning a", ballType, "ball");
-
+	let ball;
+	
 	// Call the correct spawning function based on the ball type.
-	if (ballType === "pink")
-	  spawnRandomPinkBall();
-	else if (ballType === "purple")
-	  spawnRandomPurpleBall();
-	else if (ballType === "blue")
-	  spawnRandomBlueBall();
-	else if (ballType === "green")
-	  spawnRandomGreenBall();
-	else if (ballType === "orange")
-	  spawnRandomOrangeBall();
-	else if (ballType === "yellow")
-	  spawnRandomYellowBall();
-	else
-	  spawnNoBall(); // fallback if no condition met "none "
+	if (ballType === "pink") {
+	  ball = spawnRandomPinkBall();
+	  playRandomPop();
+	} else if (ballType === "purple") {
+	  ball = spawnRandomPurpleBall();
+	  playRandomPop();
+	} else if (ballType === "blue") {
+	  ball = spawnRandomBlueBall();
+	  playRandomPop();
+	} else if (ballType === "green") {
+	  ball = spawnRandomGreenBall();
+	  playRandomPop();
+	} else if (ballType === "orange") {
+	  ball = spawnRandomOrangeBall();
+	  playRandomPop();
+	} else if (ballType === "yellow") {
+	  ball = spawnRandomYellowBall();
+	  playRandomPop();
+	} else {
+	  ball = spawnNoBall(); // fallback: no ball spawned
+	}
+	
+	// If a ball was spawned, initialize fade-in properties.
+	// Start completely transparent and use fadeSpeed to control the fade rate.
+	if (ball) {
+	  ball.fadeOpacity = 0;   // Custom property to track the current alpha
+	  ball.fadeSpeed = 1;     // Increase this by 5 each frame (adjust as needed)
+	  
+	  // Set the ball's color with initial transparency.
+	  let c = color(ball.colour); // ball.colour should hold your hex color string (e.g. "#ff0178")
+	  c.setAlpha(ball.fadeOpacity);
+	  ball.shapeColor = c;
+	}
   }
   
   /**
@@ -1767,10 +1823,10 @@ function spawnBallForWord(word) {
    */
   function determineBallType(word) {
 	word = word.toLowerCase();
-	if (word.match(/love|friend|social|family|child|speak|Magritte|commented/)) {
+	if (word.match(/love|friend|social|family|child|speak|Magritte|commented|relation|world|earth|hell|painter|Middle Ages|Europe|Renaissance|past|history|image|artist|photographer|art|truth|beauty|civilisation|form|status|taste|mystify|mystification|Frans Hals|human condition/)) {
 	  // Words about relationships, emotion, social bonding, people... etc.
 	  return "pink";
-	} else if (word.match(/mind|thought|intellect|brain|establishes|explain|world|knowledge|explanation|fact|relation|know|explaination|Surrealist/)) {
+	} else if (word.match(/mind|thought|intellect|brain|establishes|explain|world|knowledge|explanation|fact|relation|know|Surrealist/)) {
 	  // Words that refer to cognitive or mental processes.
 	  return "purple";
 	} else if (word.match(/nature|sky|ocean|blue|surrounding|world|evening|sunset|sun|earth|sight|painter|gap/)) {
@@ -1793,4 +1849,21 @@ function spawnBallForWord(word) {
 
 async function playBGM() {
 	await bgm.stop(); await bgm.play();
+  }
+
+  function playRandomBloop() {
+	// Create an array containing the four bloop sound objects.
+	const bloops = [bloop1, bloop2, bloop3, bloop0];
+	
+	// Choose a random index (0, 1, 2, or 3).
+	const randomIndex = floor(random(bloops.length));
+	
+	// Play the randomly selected bloop sound.
+	bloops[randomIndex].play();
+  }
+
+  function playRandomPop() {
+	const pops = [pop0, pop1, pop2, pop3, pop4, pop5];
+	const randomIndex = floor(random(pops.length));
+	pops[randomIndex].play();
   }
