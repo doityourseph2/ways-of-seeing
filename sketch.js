@@ -8,8 +8,7 @@ let man1state = 1; let man2state = 1; let man3state = 1; let man4state = 1; let 
 let man1timer = 0; let man2timer = 0; let man3timer = 0; let man4timer = 0; let man5timer = 0;
 
 let mouthBallsGroup;
-
-
+let bgm; let bgmTimer = 0; let initial = 0;
 
 let man1WanderTarget = { x: 0, y: 0 }; let man1NeedsNewTarget = true; let man1RestTimer = 0; let man1IsResting = false; let man1WalkCycles = 0;
 let man2WanderTarget = { x: 0, y: 0 }; let man2NeedsNewTarget = true; let man2RestTimer = 0; let man2IsResting = false; let man2WalkCycles = 0;
@@ -41,7 +40,7 @@ function preload() {
 	somaticFont = loadFont("assets/somatic.ttf");
 
 	// sound preload
-	//bgm = loadSound("sfx/ChillMenu_Loopable.wav"); bgm.setVolume(0.1);
+	bgm = loadSound("sfx/clear_vision.mp3"); bgm.setVolume(0.1); 
 
 	//sprite preload
 	man1 = new Sprite(0, 0, 28.8, 74.3 ); man1.spriteSheet = 'assets/-_man_sprite.png'; man1.anis.frameDelay = 10; 
@@ -117,6 +116,7 @@ function keyPressed() {
 
 function setup() {
 let DynamicWindowWidth = windowWidth;
+userStartAudio();
 
 if (windowWidth <= 600){
 	//console.log("XS Size detected"); 
@@ -647,10 +647,23 @@ function handleBallEnteredPipe(ballColor) {
 	mouthBallsGroup.add(newBall);
 	
 	return newBall;
+
 }
 
 function draw() {
 	textFont(somaticFont);
+
+	//Initialisation of SFX
+    if (initial == 0) {
+		playBGM();
+		initial = 1;
+	}
+
+	bgmTimer--; console.log(bgmTimer);
+	if (bgmTimer <= 1) {
+		playBGM();
+		bgmTimer = 12600;
+	} 
 
 	if (millis() - lastCycleTime > cycleInterval) {
 		lastCycleTime = millis();
@@ -1531,6 +1544,7 @@ function wander1(sprite) {
 
 // Called once when the mouse is pressed.
 function mousePressed() {
+
   // Allow dragging only if the click is in the top 2/5 of the canvas
   if (mouseY > canvas.h * 2 / 5) {
     return;
@@ -1775,4 +1789,8 @@ function spawnBallForWord(word) {
 	  // Default category if none match.
 	  return "none";
 	}
+  }
+
+async function playBGM() {
+	await bgm.stop(); await bgm.play();
   }
