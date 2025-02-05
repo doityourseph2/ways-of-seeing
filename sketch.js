@@ -52,7 +52,10 @@ function preload() {
 	pop3 = loadSound("sfx/pop3.mp3"); pop3.setVolume(0.06);
 	pop4 = loadSound("sfx/pop4.mp3"); pop4.setVolume(0.06);
 	pop5 = loadSound("sfx/pop5.mp3"); pop5.setVolume(0.06);
-	
+	nya0 = loadSound("sfx/nya0.mp3"); nya0.setVolume(0.06);
+	nya1 = loadSound("sfx/nya1.mp3"); nya1.setVolume(0.06);
+	nya2 = loadSound("sfx/nya2.mp3"); nya2.setVolume(0.06);
+
 	//sprite preload
 	man1 = new Sprite(0, 0, 28.8, 74.3 ); man1.spriteSheet = 'assets/-_man_sprite.png'; man1.anis.frameDelay = 10; 
 	man1.addAnis({ pickup_reverse: { row: 0, frames: 7 }, pickup_pink: { row: 1, frames: 7 }, pickup_purple: { row: 2, frames: 7 }, pickup_blue: { row: 3, frames: 7 }, pickup_green: { row: 4, frames: 7 }, pickup_orange: { row: 5, frames: 7 }, pickup_yellow: { row: 6, frames: 7 }, walk_pink: { row: 7, frames: 12 }, walk_purple: { row: 8, frames: 12 }, walk_blue: { row: 9, frames: 12 }, walk_green: { row: 10, frames: 12 }, walk_orange: { row: 11, frames: 12 }, walk_yellow: { row: 12, frames: 12 }, walk_loop: { row: 13, frames: 12 }, walk_idle: { row: 13, frames: 1 }, pickup_reverse_default: { row: 0, frames: 7 }, pickup_default: { row: 13, frames: 1 }}); man1.changeAni('walk_idle'); 
@@ -597,11 +600,13 @@ function findNearestBall(manSprite) {
 function handleBallEnteredPipe(ballColor) {
 	// If this is the first ball, start the mouth animation.
 	if (mouthstate === 0) {
+		
 	  mouthstate = 1;
 	  mouthTimer = 0;
 	  //console.log("First ball entered pipe: starting mouth animation");
 	  // Spawn a colored ball from the mouth
 	  spawnMouthBall(ballColor);
+	  //playRandomNya();
 	} 
 	// Otherwise, if the animation is already running...
 	else if (mouthstate === 1) {
@@ -612,6 +617,7 @@ function handleBallEnteredPipe(ballColor) {
 	  }
 	  // Optionally, you can also spawn another ball here:
 	  spawnMouthBall(ballColor);
+	  //playRandomNya();
 	}
   }
   
@@ -1843,4 +1849,10 @@ async function playBGM() {
 	const pops = [pop0, pop1, pop2, pop3, pop4, pop5];
 	const randomIndex = floor(random(pops.length));
 	pops[randomIndex].play();
+  }
+
+  function playRandomNya() {
+	const nyas = [nya0, nya1, nya2];
+	const randomIndex = floor(random(nyas.length));
+	nyas[randomIndex].play();
   }
