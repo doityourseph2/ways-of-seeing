@@ -1,20 +1,25 @@
 let somaticFont; let debugMode = false; 
 let puppet; let nose; 
-let pinkball; let purpleball; let blueball; let greenball; let orangeball; let yellowball;
+let pinkball; let purpleball; let blueball; let greenball; let orangeball; let yellowball; let mouthBallsGroup;
 let man1; let man2; let man3; let man4; let man5; let pipe; let pipetimer = 0;
 let mouth; let mouthTimer = 0; let mouthstate = 0;
 let eyes; let eyesTimer = 0; let eyesstate = 0;
 let man1state = 1; let man2state = 1; let man3state = 1; let man4state = 1; let man5state = 1;
 let man1timer = 0; let man2timer = 0; let man3timer = 0; let man4timer = 0; let man5timer = 0;
 
-let mouthBallsGroup;
+//SFX Variables
 let bgm; let bgmTimer = 0; let initial = 0;
 
+// Man Walking Variables
 let man1WanderTarget = { x: 0, y: 0 }; let man1NeedsNewTarget = true; let man1RestTimer = 0; let man1IsResting = false; let man1WalkCycles = 0;
 let man2WanderTarget = { x: 0, y: 0 }; let man2NeedsNewTarget = true; let man2RestTimer = 0; let man2IsResting = false; let man2WalkCycles = 0;
 let man3WanderTarget = { x: 0, y: 0 }; let man3NeedsNewTarget = true; let man3RestTimer = 0; let man3IsResting = false; let man3WalkCycles = 0;
 let man4WanderTarget = { x: 0, y: 0 }; let man4NeedsNewTarget = true; let man4RestTimer = 0; let man4IsResting = false; let man4WalkCycles = 0;
 let man5WanderTarget = { x: 0, y: 0 }; let man5NeedsNewTarget = true; let man5RestTimer = 0; let man5IsResting = false; let man5WalkCycles = 0;
+
+// Camera, Touch Controls
+let touchStartX = 0, touchStartY = 0; let touchMoveX, touchMoveY; let touchEndX, touchEndY;
+let isTouchDevice = ("ontouchstart" in window);
 
 // Global Essay Variables
 let words = [];          // Array to hold all words of the essay
@@ -57,6 +62,9 @@ function preload() {
 	nya2 = loadSound("sfx/nya2.mp3"); nya2.setVolume(0.06);
 
 	//sprite preload
+	cursor = new Sprite(-10,-10, 93.2, 72.4); cursor.spriteSheet = 'assets/-_cursor.png'; 
+    cursor.addAnis({ cursor_main: { row: 0, frames: 1 }, cursor_hover: { row: 1, frames: 1 }, cursor_drag: { row: 2, frames: 1 } }); cursor.changeAni('cursor_main');
+
 	man1 = new Sprite(0, 0, 28.8, 74.3 ); man1.spriteSheet = 'assets/-_man_sprite.png'; man1.anis.frameDelay = 10; 
 	man1.addAnis({ pickup_reverse: { row: 0, frames: 7 }, pickup_pink: { row: 1, frames: 7 }, pickup_purple: { row: 2, frames: 7 }, pickup_blue: { row: 3, frames: 7 }, pickup_green: { row: 4, frames: 7 }, pickup_orange: { row: 5, frames: 7 }, pickup_yellow: { row: 6, frames: 7 }, walk_pink: { row: 7, frames: 12 }, walk_purple: { row: 8, frames: 12 }, walk_blue: { row: 9, frames: 12 }, walk_green: { row: 10, frames: 12 }, walk_orange: { row: 11, frames: 12 }, walk_yellow: { row: 12, frames: 12 }, walk_loop: { row: 13, frames: 12 }, walk_idle: { row: 13, frames: 1 }, pickup_reverse_default: { row: 0, frames: 7 }, pickup_default: { row: 13, frames: 1 }}); man1.changeAni('walk_idle'); 
 	man2 = new Sprite(0, 0, 28.8, 74.3 ); man2.spriteSheet = 'assets/-_man_sprite.png'; man2.anis.frameDelay = 10; 
@@ -92,31 +100,6 @@ function keyPressed() {
 		spawnRandomGreenBall();
 		spawnRandomOrangeBall();
 		spawnRandomYellowBall();
-	  }
-	  // Toggle the ball spawning region visibility when the "a" key is pressed.
-	  if (key === 'a') {
-		// Create an array that contains all the spawning region sprites.
-		let regionSprites = [
-		  // Pink spawn regions
-		  pinkreg1, pinkreg2, pinkreg3,
-		  // Purple spawn regions
-		  purplereg1, purplereg2, purplereg3,
-		  // Green spawn regions (if you have more than two)
-		  greenreg1, greenreg2, greenreg3, greenreg4,
-		  // Blue spawn regions (change names as applicable)
-		  bluereg1,
-		  // Orange spawn regions
-		  orangereg1, orangereg2,
-		  // Yellow spawn regions
-		  yellowreg1, yellowreg2
-		];
-		
-		// Toggle the visibility on each region.
-		regionSprites.forEach(region => {
-		  region.visible = !region.visible;
-		});
-		
-		//console.log("Toggled spawn region visibility");
 	  }
 
 	  if(key === ' ') {
@@ -230,6 +213,10 @@ function xsScreenSettings() {
 	playarea.w = 245;
 	MinScaleX = 0.1;
 }*/
+    // Cursor Sprite
+	cursor.x = (canvas.w/2); cursor.y = (canvas.h/2); cursor.scale = 1;
+	cursor.scale.x = 2; cursor.scale.y = 2;
+	cursor.collider = 'none'; 
 
     // Colour Ball Spawne
 	mouthBallsGroup = new Group();
@@ -259,7 +246,7 @@ function xsScreenSettings() {
 	man1.layer = 5; man2.layer = 5; man3.layer = 5; man4.layer = 5; man5.layer = 5; pipe.layer = 4; pipe.collider = 'none';
 	man1.rotationLock = true; man2.rotationLock = true; man3.rotationLock = true; man4.rotationLock = true; man5.rotationLock = true;
 	man1.width = 28.8/2; man1.height = 74.3/2; man2.width = 28.8/2; man2.height = 74.3/2; man3.width = 28.8/2; man3.height = 74.3/2; man4.width = 28.8/2; man4.height = 74.3/2; man5.width = 28.8/2; man5.height = 74.3/2; pipe.width = 67.3/2; pipe.height = 69.9/2;
-	man1.collider = 'dynamic'; man2.collider = 'dynamic'; man3.collider = 'dynamic'; man4.collider = 'dynamic'; man5.collider = 'dynamic'; pipe.collider = 'none';
+	man1.collider = 'dynamic'; man2.collider = 'dynamic'; man3.collider = 'dynamic'; man4.collider = 'dynamic'; man5.collider = 'dynamic';
     man1.scale = 2; man2.scale = 2; man3.scale = 2; man4.scale = 2; man5.scale = 2; pipe.scale = 2;
 
 
@@ -273,7 +260,7 @@ function xsScreenSettings() {
     gradient.x = (canvas.w/2); gradient.y = (canvas.h/2);
 	gradient.scale.x = 2; gradient.scale.y = 2;
 	gradient.width = canvas.w; gradient.height = canvas.h;
-    gradient.collider = 'none'; gradient.layer = 0;
+    gradient.layer = 0; gradient.collider = 'none';
     gradient.image = 'assets/-_orange-gradient.png'; gradient.sleeping = true;
 
 	// Canvas Bounding Box
@@ -337,6 +324,12 @@ function xsScreenSettings() {
 	//logoImage.collider = 'none'; 
 	//logoImage.image = 'assets/-_logo.png'; logoImage.scale = 2;
 
+	// Cursor Sprite
+	cursor.width = 10; cursor.height = 10; cursor.offset.x = 0; cursor.offset.y = 0;
+
+	cursorHitbox = new Sprite(); cursorHitbox.visible = false;
+	cursorHitbox.width = 10; cursorHitbox.height = 10; 
+
 	// Author Text
 	authorText = new Sprite();
 	authorText.fill = color(0, 0, 0, 0);    // Completely transparent fill
@@ -361,18 +354,18 @@ function xsScreenSettings() {
 	legendText.fill = color(0, 0, 0, 0);    // Completely transparent fill
 	legendText.stroke = color(0, 0, 0, 0);  // Remove stroke/borders
 	legendText.collider = 'none'; legendText.scale = 2; legendText.layer = 5;
-	legendText.x = (canvas.w/2); legendText.y = (canvas.h/18)*7.3;
+	legendText.x = (canvas.w/2); legendText.y = (canvas.h/18)*6.67;
 	legendText.textColor = '#550c5d';	legendText.font = 'assets/somatic.ttf';
 	legendText.text = 'Legend:'; legendText.textSize = 140/6; legendText.opacity = 1;
 
 	// Legend Bubble Array Variables
-	let horiOffset = 85; let vertOffset = 0; vertHeight = canvas.h/2.3; horiWidth = canvas.w/2;
+	let horiOffset = 85; let vertOffset = 0; vertHeight = canvas.h/2.4; horiWidth = canvas.w/2;
 
 	// Pink Text
 	pinkText = new Sprite(); pinkText.diameter = 36;
 	pinkText.fill = '#ff0178'; pinkText.stroke = '#fff9ea'; pinkText.strokeWeight = 5;
 	pinkText.collider = 'none'; pinkText.scale = 2; pinkText.layer = 6;
-	pinkText.x = (horiWidth)+(-horiOffset/2); pinkText.y = (vertHeight)+(vertOffset);
+	pinkText.x = (horiWidth)+(-horiOffset/2); pinkText.y = (vertHeight)+(vertOffset)-25;
 	pinkText.text = 'Social'; pinkText.textSize = 16; pinkText.opacity = 1;
 	pinkText.textColor = '#fff9ea'; pinkText.font = 'assets/somatic.ttf';
 
@@ -380,7 +373,7 @@ function xsScreenSettings() {
 	purpleText = new Sprite(); purpleText.diameter = 36;
 	purpleText.fill = '#a138ff'; purpleText.stroke = '#fff9ea'; purpleText.strokeWeight = 5;
 	purpleText.collider = 'none'; purpleText.scale = 2; purpleText.layer = 6;
-	purpleText.x = (horiWidth)+(horiOffset/2); purpleText.y = (vertHeight)+(vertOffset*2);
+	purpleText.x = (horiWidth)+(horiOffset/2); purpleText.y = (vertHeight)+(vertOffset*2)-25;
 	purpleText.text = 'Mental'; purpleText.textSize = 16; purpleText.opacity = 1;
 	purpleText.textColor = '#fff9ea'; purpleText.font = 'assets/somatic.ttf';
 
@@ -396,7 +389,7 @@ function xsScreenSettings() {
 	greenText = new Sprite(); greenText.diameter = 36;
 	greenText.fill = '#13ce0d'; greenText.stroke = '#fff9ea'; greenText.strokeWeight = 5;
 	greenText.collider = 'none'; greenText.scale = 2; greenText.layer = 6;
-	greenText.x = (horiWidth)+(horiOffset*2.5); greenText.y = (vertHeight)+(vertOffset*4);
+	greenText.x = (horiWidth)+(horiOffset*2.5); greenText.y = (vertHeight)+(vertOffset*4)+35;
 	greenText.text = 'Visual'; greenText.textSize = 16; greenText.opacity = 1;
 	greenText.textColor = '#fff9ea'; greenText.font = 'assets/somatic.ttf';
 
@@ -409,10 +402,10 @@ function xsScreenSettings() {
 	orangeText.textColor = '#fff9ea'; orangeText.font = 'assets/somatic.ttf';
 
 	// Yellow Text
-	yellowText = new Sprite(); yellowText.diameter = 36;
+	yellowText = new Sprite(); yellowText.diameter = 40;
 	yellowText.fill = '#ffb00b'; yellowText.stroke = '#fff9ea'; yellowText.strokeWeight = 5;
 	yellowText.collider = 'none'; yellowText.scale = 2; yellowText.layer = 6;
-	yellowText.x = (horiWidth)+(-horiOffset*2.5); yellowText.y = (vertHeight)+(vertOffset*6);
+	yellowText.x = (horiWidth)+(-horiOffset*2.5); yellowText.y = (vertHeight)+(vertOffset*6)+35;
 	yellowText.text = 'Danger'; yellowText.textSize = 16; yellowText.opacity = 1;
 	yellowText.textColor = '#fff9ea'; yellowText.font = 'assets/somatic.ttf';
 
@@ -622,7 +615,6 @@ function handleBallEnteredPipe(ballColor) {
   }
   
 
-
   function spawnMouthBall(ballColor) {
 	// Create a new ball sprite at the mouth's current position.
 	let newBall = createSprite(mouth.x, mouth.y, random(30, 20));
@@ -680,9 +672,313 @@ function handleBallEnteredPipe(ballColor) {
 
 }
 
-function draw() {
-	textFont(somaticFont);
+ // Touch / Click Controls
 
+ function touchStart(event) {
+	touchStartX = event.touches[0].clientX;
+	touchStartY = event.touches[0].clientY;
+  }
+  
+  function touchMove(event) {
+	touchMoveX = event.touches[0].clientX;
+	touchMoveY = event.touches[0].clientY;
+	// Debounce touch move events to reduce latency
+	setTimeout(() => {
+	  // Handle touch move event
+	}, 50);
+  }
+  
+  function touchEnd(event) {
+	touchEndX = event.touches[0].clientX;
+	touchEndY = event.touches[0].clientY;
+	// Throttle touch end events to reduce latency
+	setTimeout(() => {
+	  // Handle touch end event
+	}, 750);
+  }
+
+  function touchStarted() {
+	touchStartX = touches[0].x;
+	touchStartY = touches[0].y;
+}
+
+function touchMoved() {
+	let touchX = touches[0].x;
+	let touchY = touches[0].y;
+
+	let deltaX = (touchX - touchStartX) * sensitivity;
+	let deltaY = (touchY - touchStartY) * sensitivity;
+
+	if (invertControls) {
+			deltaX = -deltaX;
+			deltaY = -deltaY;
+	}
+
+	camera.x += deltaX;
+	camera.y += deltaY;
+
+	touchStartX = touchX;
+	touchStartY = touchY;
+}
+
+// Get Input Position for Touch Devices
+function getInputPosition() {
+  if (isTouchDevice && touches.length > 0) {  // Use comparison, not assignment.
+    return {
+      x: touches[0].x,
+      y: touches[0].y
+    };
+  } else {
+    return {
+      x: mouseX,  // Use mouseX/mouseY provided by p5.js
+      y: mouseY
+    };
+  }
+}
+
+
+let targetDiameter = 76; let currentDiameter = 76; let targetTextSize = 16; let currentTextSize = 16; let lerpSpeed = 0.2;      
+let autoCycleState = 0; let LegendlastCycleTime = 0; const LegendcycleInterval = 3000;  // 3 seconds in milliseconds
+
+
+// Add these for each color if not already defined
+let pinkCurrentDiameter = 76, pinkTargetDiameter = 76;
+let blueCurrentDiameter = 76, blueTargetDiameter = 76;
+let purpleCurrentDiameter = 76, purpleTargetDiameter = 76;
+let greenCurrentDiameter = 76, greenTargetDiameter = 76;
+let orangeCurrentDiameter = 76, orangeTargetDiameter = 76;
+
+function mouseHover(){
+  if (!isTouchDevice){ 
+    let pos = getInputPosition();
+    cursor.x = pos.x; cursorHitbox.x = cursor.x;
+    cursor.y = pos.y; cursorHitbox.y = cursor.y;
+    cursor.visible = true;
+    
+    // Yellow Text Hover
+    if (cursorHitbox.overlapping(yellowText)){
+      yellowreg1.visible = true;
+      yellowreg2.visible = true;
+      targetDiameter = 95;
+      targetTextSize = 20;
+    } else {
+      yellowreg1.visible = false;
+      yellowreg2.visible = false;
+      targetDiameter = 76;
+      targetTextSize = 16;
+    }
+
+    // Pink Text Hover
+    if (cursorHitbox.overlapping(pinkText)){
+      pinkreg1.visible = true;
+      pinkreg2.visible = true;
+	  pinkreg3.visible = true;
+      pinkTargetDiameter = 95;
+      pinkText.textSize = 20;
+    } else {
+      pinkreg1.visible = false;
+      pinkreg2.visible = false;
+	  pinkreg3.visible = false;
+      pinkTargetDiameter = 76;
+      pinkText.textSize = 16;
+    }
+
+    // Blue Text Hover
+    if (cursorHitbox.overlapping(blueText)){
+      bluereg1.visible = true;
+      blueTargetDiameter = 95;
+      blueText.textSize = 20;
+    } else {
+      bluereg1.visible = false;
+      blueTargetDiameter = 76;
+      blueText.textSize = 16;
+    }
+
+    // Purple Text Hover
+    if (cursorHitbox.overlapping(purpleText)){
+      purplereg1.visible = true;
+      purplereg2.visible = true;
+	  purplereg3.visible = true;
+      purpleTargetDiameter = 95;
+      purpleText.textSize = 20;
+    } else {
+      purplereg1.visible = false;
+      purplereg2.visible = false;
+	  purplereg3.visible = false;
+      purpleTargetDiameter = 76;
+      purpleText.textSize = 16;
+    }
+
+    // Green Text Hover
+    if (cursorHitbox.overlapping(greenText)){
+      greenreg1.visible = true;
+      greenreg2.visible = true;
+	  greenreg3.visible = true;
+	  greenreg4.visible = true;
+      greenTargetDiameter = 95;
+      greenText.textSize = 20;
+    } else {
+      greenreg1.visible = false;
+      greenreg2.visible = false;
+	  greenreg3.visible = false;
+	  greenreg4.visible = false;
+      greenTargetDiameter = 76;
+      greenText.textSize = 16;
+    }
+
+    // Orange Text Hover
+    if (cursorHitbox.overlapping(orangeText)){
+      orangereg1.visible = true;
+      orangereg2.visible = true;
+      orangeTargetDiameter = 95;
+      orangeText.textSize = 20;
+    } else {
+      orangereg1.visible = false;
+      orangereg2.visible = false;
+      orangeTargetDiameter = 76;
+      orangeText.textSize = 16;
+    }
+
+    // Apply smooth interpolation for all circles
+    currentDiameter = lerp(currentDiameter, targetDiameter, lerpSpeed);
+    pinkCurrentDiameter = lerp(pinkCurrentDiameter, pinkTargetDiameter, lerpSpeed);
+    blueCurrentDiameter = lerp(blueCurrentDiameter, blueTargetDiameter, lerpSpeed);
+    purpleCurrentDiameter = lerp(purpleCurrentDiameter, purpleTargetDiameter, lerpSpeed);
+    greenCurrentDiameter = lerp(greenCurrentDiameter, greenTargetDiameter, lerpSpeed);
+    orangeCurrentDiameter = lerp(orangeCurrentDiameter, orangeTargetDiameter, lerpSpeed);
+    
+    // Apply the interpolated values
+    yellowText.diameter = currentDiameter;
+    pinkText.diameter = pinkCurrentDiameter;
+    blueText.diameter = blueCurrentDiameter;
+    purpleText.diameter = purpleCurrentDiameter;
+    greenText.diameter = greenCurrentDiameter;
+    orangeText.diameter = orangeCurrentDiameter;
+
+  } else {
+    cursor.visible = false;
+
+  // Auto cycle logic
+  if (millis() - LegendlastCycleTime > LegendcycleInterval) {
+	// Reset all visibility and sizes first
+	resetAllRegions();
+	
+	// Cycle through states
+	switch(autoCycleState) {
+	  case 0: // Yellow
+		yellowreg1.visible = true;
+		yellowreg2.visible = true;
+		targetDiameter = 95;
+		yellowText.textSize = 20;
+		break;
+		
+	  case 1: // Orange
+		orangereg1.visible = true;
+		orangereg2.visible = true;
+		orangeTargetDiameter = 95;
+		orangeText.textSize = 20;
+		break;
+		
+	  case 2: // Pink
+		pinkreg1.visible = true;
+		pinkreg2.visible = true;
+		pinkreg3.visible = true;
+		pinkTargetDiameter = 95;
+		pinkText.textSize = 20;
+		break;
+		
+	  case 3: // Purple
+		purplereg1.visible = true;
+		purplereg2.visible = true;
+		purplereg3.visible = true;
+		purpleTargetDiameter = 95;
+		purpleText.textSize = 20;
+		break;
+		
+	  case 4: // Blue
+		bluereg1.visible = true;
+		blueTargetDiameter = 95;
+		blueText.textSize = 20;
+		break;
+		
+	  case 5: // Green
+		greenreg1.visible = true;
+		greenreg2.visible = true;
+		greenreg3.visible = true;
+		greenreg4.visible = true;
+		greenTargetDiameter = 95;
+		greenText.textSize = 20;
+		break;
+	}
+	
+	// Increment state and loop back to 0 if needed
+	autoCycleState = (autoCycleState + 1) % 6;
+	LegendlastCycleTime = millis();
+  }
+}
+
+// Apply smooth interpolation for all circles (keep this outside the if/else)
+currentDiameter = lerp(currentDiameter, targetDiameter, lerpSpeed);
+pinkCurrentDiameter = lerp(pinkCurrentDiameter, pinkTargetDiameter, lerpSpeed);
+blueCurrentDiameter = lerp(blueCurrentDiameter, blueTargetDiameter, lerpSpeed);
+purpleCurrentDiameter = lerp(purpleCurrentDiameter, purpleTargetDiameter, lerpSpeed);
+greenCurrentDiameter = lerp(greenCurrentDiameter, greenTargetDiameter, lerpSpeed);
+orangeCurrentDiameter = lerp(orangeCurrentDiameter, orangeTargetDiameter, lerpSpeed);
+
+// Apply the interpolated values
+yellowText.diameter = currentDiameter;
+pinkText.diameter = pinkCurrentDiameter;
+blueText.diameter = blueCurrentDiameter;
+purpleText.diameter = purpleCurrentDiameter;
+greenText.diameter = greenCurrentDiameter;
+orangeText.diameter = orangeCurrentDiameter;
+}
+
+// Helper function to reset all regions and sizes
+function resetAllRegions() {
+// Reset visibility
+yellowreg1.visible = false;
+yellowreg2.visible = false;
+orangereg1.visible = false;
+orangereg2.visible = false;
+pinkreg1.visible = false;
+pinkreg2.visible = false;
+pinkreg3.visible = false;
+purplereg1.visible = false;
+purplereg2.visible = false;
+purplereg3.visible = false;
+bluereg1.visible = false;
+greenreg1.visible = false;
+greenreg2.visible = false;
+greenreg3.visible = false;
+greenreg4.visible = false;
+
+// Reset target diameters
+targetDiameter = 76;
+pinkTargetDiameter = 76;
+blueTargetDiameter = 76;
+purpleTargetDiameter = 76;
+greenTargetDiameter = 76;
+orangeTargetDiameter = 76;
+
+// Reset text sizes
+yellowText.textSize = 16;
+pinkText.textSize = 16;
+blueText.textSize = 16;
+purpleText.textSize = 16;
+greenText.textSize = 16;
+orangeText.textSize = 16;
+}
+
+function draw() {
+
+	//Interactions Framework
+    mouseHover(); noCursor();
+	cursor.layer = 20; logoText.layer = 19; mouthBallsGroup.layer = 18;
+
+    // OnHover Interactions
+
+	textFont(somaticFont);
 	//Initialisation of SFX
     if (initial == 0) {
 		playBGM();
@@ -1830,6 +2126,7 @@ function getRandomPointInCircle(center, radius) {
 	}
   }
 
+  
 async function playBGM() {
 	await bgm.stop(); await bgm.play();
   }
