@@ -49,6 +49,14 @@ const TRAIL_VELOCITY_THRESHOLD = 10; // Adjust this value to change when trails 
 const TRAIL_LENGTH = 5;
 const TRAIL_OPACITY = 0.5;
 
+// At the top with other globals, adjust these values
+const PC_LERP_SPEED = 0.2;      // Smoother for PC hover
+const TABLET_LERP_SPEED = 0.2;  // Adjusted for smoother tablet transitions
+const TEXT_SIZE_SMALL = 16;
+const TEXT_SIZE_LARGE = 20;
+const CIRCLE_SIZE_SMALL = 76;
+const CIRCLE_SIZE_LARGE = 95;
+
 /**
  * Returns a random point uniformly distributed within a circle of a given radius.
  * The point is returned relative to the provided center.
@@ -1153,87 +1161,94 @@ function mouseHover() {
     cursor.y = mouseY;
     cursorHitbox.x = mouseX;
     cursorHitbox.y = mouseY;
-    
+
     if (draggedLetter || draggedMouthBall) {
         cursor.changeAni('cursor_drag');
         return;
     }
 
-    // For touch devices, simulate hover events
     if (isTouchDevice) {
         let currentTime = millis();
+        
+        // Only reset states when switching to a new index
         if (currentTime - lastHoverTime >= HOVER_INTERVAL) {
-            // Reset all region visibility
-            yellowreg1.visible = yellowreg2.visible = false;
-            orangereg1.visible = orangereg2.visible = false;
-            pinkreg1.visible = pinkreg2.visible = pinkreg3.visible = false;
-            purplereg1.visible = purplereg2.visible = purplereg3.visible = false;
-            greenreg1.visible = greenreg2.visible = greenreg3.visible = greenreg4.visible = false;
-            bluereg1.visible = false;
-
-            // Reset all target diameters first
-            targetDiameter = 72;
-            orangeTargetDiameter = 72;
-            pinkTargetDiameter = 72;
-            purpleTargetDiameter = 72;
-            greenTargetDiameter = 72;
-            blueTargetDiameter = 72;
-
-            // Reset all text sizes to default
-            yellowText.textSize = 16;
-            orangeText.textSize = 16;
-            pinkText.textSize = 16;
-            purpleText.textSize = 16;
-            greenText.textSize = 16;
-            blueText.textSize = 16;
-
-            // Set target values based on current index
+            // Reset all visibility and sizes first
+            resetAllVisibility();
+            
+            // Set states based on current cycle
             switch(currentHoverIndex) {
                 case 0: // Yellow
                     yellowreg1.visible = yellowreg2.visible = true;
-                    targetDiameter = 95;
-                    yellowText.textSize = 20;
+                    targetDiameter = CIRCLE_SIZE_LARGE;
+                    orangeTargetDiameter = CIRCLE_SIZE_SMALL;
+                    pinkTargetDiameter = CIRCLE_SIZE_SMALL;
+                    purpleTargetDiameter = CIRCLE_SIZE_SMALL;
+                    greenTargetDiameter = CIRCLE_SIZE_SMALL;
+                    blueTargetDiameter = CIRCLE_SIZE_SMALL;
                     break;
                 case 1: // Orange
                     orangereg1.visible = orangereg2.visible = true;
-                    orangeTargetDiameter = 95;
-                    orangeText.textSize = 20;
+                    targetDiameter = CIRCLE_SIZE_SMALL;
+                    orangeTargetDiameter = CIRCLE_SIZE_LARGE;
+                    pinkTargetDiameter = CIRCLE_SIZE_SMALL;
+                    purpleTargetDiameter = CIRCLE_SIZE_SMALL;
+                    greenTargetDiameter = CIRCLE_SIZE_SMALL;
+                    blueTargetDiameter = CIRCLE_SIZE_SMALL;
                     break;
                 case 2: // Pink
                     pinkreg1.visible = pinkreg2.visible = pinkreg3.visible = true;
-                    pinkTargetDiameter = 95;
-                    pinkText.textSize = 20;
+                    targetDiameter = CIRCLE_SIZE_SMALL;
+                    orangeTargetDiameter = CIRCLE_SIZE_SMALL;
+                    pinkTargetDiameter = CIRCLE_SIZE_LARGE;
+                    purpleTargetDiameter = CIRCLE_SIZE_SMALL;
+                    greenTargetDiameter = CIRCLE_SIZE_SMALL;
+                    blueTargetDiameter = CIRCLE_SIZE_SMALL;
                     break;
                 case 3: // Purple
                     purplereg1.visible = purplereg2.visible = purplereg3.visible = true;
-                    purpleTargetDiameter = 95;
-                    purpleText.textSize = 20;
+					targetDiameter = CIRCLE_SIZE_SMALL;
+                    orangeTargetDiameter = CIRCLE_SIZE_SMALL;
+                    pinkTargetDiameter = CIRCLE_SIZE_SMALL;
+                    purpleTargetDiameter = CIRCLE_SIZE_LARGE;
+                    greenTargetDiameter = CIRCLE_SIZE_SMALL;
+                    blueTargetDiameter = CIRCLE_SIZE_SMALL;
                     break;
                 case 4: // Blue
                     bluereg1.visible = true;
-                    blueTargetDiameter = 95;
-                    blueText.textSize = 20;
+					targetDiameter = CIRCLE_SIZE_SMALL;
+                    orangeTargetDiameter = CIRCLE_SIZE_SMALL;
+                    pinkTargetDiameter = CIRCLE_SIZE_SMALL;
+                    purpleTargetDiameter = CIRCLE_SIZE_SMALL;
+                    greenTargetDiameter = CIRCLE_SIZE_SMALL;
+                    blueTargetDiameter = CIRCLE_SIZE_LARGE;
                     break;
                 case 5: // Green
                     greenreg1.visible = greenreg2.visible = greenreg3.visible = greenreg4.visible = true;
-                    greenTargetDiameter = 95;
-                    greenText.textSize = 20;
+					targetDiameter = CIRCLE_SIZE_SMALL;
+                    orangeTargetDiameter = CIRCLE_SIZE_SMALL;
+                    pinkTargetDiameter = CIRCLE_SIZE_SMALL;
+                    purpleTargetDiameter = CIRCLE_SIZE_SMALL;
+                    greenTargetDiameter = CIRCLE_SIZE_LARGE;
+                    blueTargetDiameter = CIRCLE_SIZE_SMALL;
                     break;
             }
-
+            
             currentHoverIndex = (currentHoverIndex + 1) % 6;
             lastHoverTime = currentTime;
         }
+        
+        // Apply smooth transitions
+        let currentLerpSpeed = TABLET_LERP_SPEED;
+        
+        // Smoothly interpolate diameters
+        currentDiameter = lerp(currentDiameter, targetDiameter, currentLerpSpeed);
+        pinkCurrentDiameter = lerp(pinkCurrentDiameter, pinkTargetDiameter, currentLerpSpeed);
+        blueCurrentDiameter = lerp(blueCurrentDiameter, blueTargetDiameter, currentLerpSpeed);
+        purpleCurrentDiameter = lerp(purpleCurrentDiameter, purpleTargetDiameter, currentLerpSpeed);
+        greenCurrentDiameter = lerp(greenCurrentDiameter, greenTargetDiameter, currentLerpSpeed);
+        orangeCurrentDiameter = lerp(orangeCurrentDiameter, orangeTargetDiameter, currentLerpSpeed);
 
-        // These lerp calculations should run every frame
-        currentDiameter = lerp(currentDiameter, targetDiameter, 0.1);
-        pinkCurrentDiameter = lerp(pinkCurrentDiameter, pinkTargetDiameter, 0.1);
-        blueCurrentDiameter = lerp(blueCurrentDiameter, blueTargetDiameter, 0.1);
-        purpleCurrentDiameter = lerp(purpleCurrentDiameter, purpleTargetDiameter, 0.1);
-        greenCurrentDiameter = lerp(greenCurrentDiameter, greenTargetDiameter, 0.1);
-        orangeCurrentDiameter = lerp(orangeCurrentDiameter, orangeTargetDiameter, 0.1);
-
-        // Apply the interpolated values every frame
+        // Apply the interpolated values
         yellowText.diameter = currentDiameter;
         pinkText.diameter = pinkCurrentDiameter;
         blueText.diameter = blueCurrentDiameter;
@@ -1241,31 +1256,90 @@ function mouseHover() {
         greenText.diameter = greenCurrentDiameter;
         orangeText.diameter = orangeCurrentDiameter;
 
-        return;
+    } else {
+        // PC hover logic remains unchanged
+        resetAllVisibility();
+
+        if (cursorHitbox.overlapping(yellowText)) {
+            yellowreg1.visible = yellowreg2.visible = true;
+            targetDiameter = CIRCLE_SIZE_LARGE;
+        } else {
+            targetDiameter = CIRCLE_SIZE_SMALL;
+        }
+        if (cursorHitbox.overlapping(orangeText)) {
+            orangereg1.visible = orangereg2.visible = true;
+            orangeTargetDiameter = CIRCLE_SIZE_LARGE;
+        } else {
+            orangeTargetDiameter = CIRCLE_SIZE_SMALL;
+        }
+        if (cursorHitbox.overlapping(pinkText)) {
+            pinkreg1.visible = pinkreg2.visible = pinkreg3.visible = true;
+            pinkTargetDiameter = CIRCLE_SIZE_LARGE;
+        } else {
+            pinkTargetDiameter = CIRCLE_SIZE_SMALL;
+        }
+        if (cursorHitbox.overlapping(purpleText)) {
+            purplereg1.visible = purplereg2.visible = purplereg3.visible = true;
+            purpleTargetDiameter = CIRCLE_SIZE_LARGE;
+        } else {
+            purpleTargetDiameter = CIRCLE_SIZE_SMALL;
+        }
+        if (cursorHitbox.overlapping(blueText)) {
+            bluereg1.visible = true;
+            blueTargetDiameter = CIRCLE_SIZE_LARGE;
+        } else {
+            blueTargetDiameter = CIRCLE_SIZE_SMALL;
+        }
+        if (cursorHitbox.overlapping(greenText)) {
+            greenreg1.visible = greenreg2.visible = greenreg3.visible = greenreg4.visible = true;
+            greenTargetDiameter = CIRCLE_SIZE_LARGE;
+        } else {
+            greenTargetDiameter = CIRCLE_SIZE_SMALL;
+        }
+        cursor.changeAni('cursor_main');
     }
 
-    // These lerp calculations should run every frame
-    currentDiameter = lerp(currentDiameter, targetDiameter, lerpSpeed);
-    pinkCurrentDiameter = lerp(pinkCurrentDiameter, pinkTargetDiameter, lerpSpeed);
-    blueCurrentDiameter = lerp(blueCurrentDiameter, blueTargetDiameter, lerpSpeed);
-    purpleCurrentDiameter = lerp(purpleCurrentDiameter, purpleTargetDiameter, lerpSpeed);
-    greenCurrentDiameter = lerp(greenCurrentDiameter, greenTargetDiameter, lerpSpeed);
-    orangeCurrentDiameter = lerp(orangeCurrentDiameter, orangeTargetDiameter, lerpSpeed);
-    
-    // Apply the interpolated values
+    // Apply smooth transitions with different speeds for PC and tablet
+    let currentLerpSpeed = isTouchDevice ? TABLET_LERP_SPEED : PC_LERP_SPEED;
+
+    // Smoothly interpolate diameters
+    currentDiameter = lerp(currentDiameter, targetDiameter, currentLerpSpeed);
+    pinkCurrentDiameter = lerp(pinkCurrentDiameter, pinkTargetDiameter, currentLerpSpeed);
+    blueCurrentDiameter = lerp(blueCurrentDiameter, blueTargetDiameter, currentLerpSpeed);
+    purpleCurrentDiameter = lerp(purpleCurrentDiameter, purpleTargetDiameter, currentLerpSpeed);
+    greenCurrentDiameter = lerp(greenCurrentDiameter, greenTargetDiameter, currentLerpSpeed);
+    orangeCurrentDiameter = lerp(orangeCurrentDiameter, orangeTargetDiameter, currentLerpSpeed);
+
+    // Smoothly interpolate text sizes
+    yellowText.textSize = lerp(yellowText.textSize, targetDiameter === CIRCLE_SIZE_LARGE ? TEXT_SIZE_LARGE : TEXT_SIZE_SMALL, currentLerpSpeed);
+    orangeText.textSize = lerp(orangeText.textSize, orangeTargetDiameter === CIRCLE_SIZE_LARGE ? TEXT_SIZE_LARGE : TEXT_SIZE_SMALL, currentLerpSpeed);
+    pinkText.textSize = lerp(pinkText.textSize, pinkTargetDiameter === CIRCLE_SIZE_LARGE ? TEXT_SIZE_LARGE : TEXT_SIZE_SMALL, currentLerpSpeed);
+    purpleText.textSize = lerp(purpleText.textSize, purpleTargetDiameter === CIRCLE_SIZE_LARGE ? TEXT_SIZE_LARGE : TEXT_SIZE_SMALL, currentLerpSpeed);
+    blueText.textSize = lerp(blueText.textSize, blueTargetDiameter === CIRCLE_SIZE_LARGE ? TEXT_SIZE_LARGE : TEXT_SIZE_SMALL, currentLerpSpeed);
+    greenText.textSize = lerp(greenText.textSize, greenTargetDiameter === CIRCLE_SIZE_LARGE ? TEXT_SIZE_LARGE : TEXT_SIZE_SMALL, currentLerpSpeed);
+
+    // Apply the interpolated diameter values
     yellowText.diameter = currentDiameter;
     pinkText.diameter = pinkCurrentDiameter;
     blueText.diameter = blueCurrentDiameter;
     purpleText.diameter = purpleCurrentDiameter;
     greenText.diameter = greenCurrentDiameter;
     orangeText.diameter = orangeCurrentDiameter;
-    
-    // Default cursor state if no other conditions met
-    cursor.changeAni('cursor_main');
+}
+
+// Helper function to reset visibility only
+function resetAllVisibility() {
+    yellowreg1.visible = yellowreg2.visible = false;
+    orangereg1.visible = orangereg2.visible = false;
+    pinkreg1.visible = pinkreg2.visible = pinkreg3.visible = false;
+    purplereg1.visible = purplereg2.visible = purplereg3.visible = false;
+    greenreg1.visible = greenreg2.visible = greenreg3.visible = greenreg4.visible = false;
+    bluereg1.visible = false;
 }
 
 function draw() {
 
+	
 	//Interactions Framework
     mouseHover(); noCursor();
 	cursor.layer = 21; logoLetters.layer = 19; mouthBallsGroup.layer = 18;
