@@ -27,8 +27,13 @@ let currentWordIndex = 0; // To keep track of which word to display
 let cycleInterval = 1000;   // Interval (in milliseconds) between word changes (e.g., 2000ms = 2 seconds)
 let lastCycleTime = 0;      // Store the time the word was last updated
 let autoCyclePaused = false; 
-let essay = "Seeing comes before words. The child looks and recognizes before it can speak. But there is also another sense in which seeing comes before words. It is seeing which establishes our place in the surrounding world; we explain that world with words, but words can never undo the fact that we are surrounded by it. The relation between what we see and what we know is never settled. Each evening we see the sunset. We know that the earth is turning away from it. Yet the knowledge, the explanation, never quite fits the sight. The Surrealist painter Magritte commented on this always present gap between words and seeing in a painting called The Key of Dreams. The way we see things is affected by what we know or what we believe. In the Middle Ages when men believed in the physical existence of Hell the sight of fire must have meant something different from what it means today. Nevertheless their idea of Hell owed a lot to the sight of fire consuming and the ashes remaining - as well as to their experience of the pain of burns. When in love, the sight of the beloved has a completeness which no words and no embrace can match : a completeness which only the act of making love can temporarily accommodate. Yet this seeing which comes before words, and can never be quite covered by them, is not a question of mechanically reacting to stimuli. (It can only be thought of in this way if one isolates the small part of the process which concerns the eye's retina.) We only see what we look at. To look is an act of choice. As a result of this act, what we see is brought within our reach - though not necessarily within arm's reach. To touch something is to situate oneself in relation to it. Close your eyes, move round the room and notice how the faculty of touch is like a static, limited form of sight. We never look at just one thing; we are always looking at the relation between things and ourselves. Our vision is continually active, continually moving, continually holding things in a circle around itself, constituting what is present to us as we are. Soon after we can see, we are aware that we can also be seen. The eye of the other combines with our own eye to make it fully credible that we are part of the visible world. If we accept that we can see that hill over there, we propose that from that hill we can be seen. The reciprocal nature of vision is more fundamental than that of spoken dialogue. And often dialogue is an attempt to verbalize this - an attempt to explain how, either metaphorically or literally, 'you see things', and an attempt to discover how 'he sees things'. In the sense in which we use the word in this book, all images are man-made. An image is a sight which has been recreated or reproduced. It is an appearance, or a set of appearances, which has been detached from the place and time in which it first made its appearance and preserved - for a few moments or a few centuries. Every image embodies a way of seeing. Even a photograph. For photographs are not, as is often assumed, a mechanical record. Every time we look at a photograph, we are aware, however slightly, of the photographer selecting that sight from an infinity of other possible sights. This is true even in the most casual family snapshot. The photographer's way of seeing is reflected in his choice of subject. The painter's way of seeing is reconstituted by the marks he makes on the canvas or paper. Yet, although every image embodies a way of seeing, our perception or appreciation of an image depends also upon our own way of seeing. It may be, for example, that Sheila is one figure among twenty; but for our own reasons she is the one we have eyes for. Images were first made to conjure up the appearances of something that was absent. Gradually it became evident that an image could outlast what it represented; it then showed how something or somebody had once looked - and thus by implication how the subject had once been seen by other people. Later still the specific vision of the image-maker was also recognized as part of the record. An image became a record of how X had seen V. This was the result of an increasing consciousness of individuality, accompanying an increasing awareness of history. It would be rash to try to date this last development precisely. But certainly in Europe such consciousness has existed since the beginning of the Renaissance. No other kind of relic or text from the past can offer such a direct testimony about the world which surrounded other people at other times. In this respect images are more precise and richer than literature. To say this is not to deny the expressive or imaginative quality of art, treating it as mere documentary evidence; the more imaginative the work, the more profoundly it allows us to share the artist's experience of the visible. Yet when an image is presented as a work of art, the way people look at it is affected by a whole series of learnt assumptions about art. Assumptions concerning: Beauty , Truth, Genius, Civilisation, Form, Status, Taste, etc. Many of these assumptions no longer accord with the world as it is. (The world-as-it-is is more than pure objective fact, it includes consciousness.) Out of true with the present, these assumptions obscure the past. They mystify rather than clarify. The past is never there waiting to be discovered, to be recognized for exactly what it is. History always constitutes the relation between a present and its past. Consequently fear of the present leads to mystification of the past. The past is not for living in; it is a well of conclusions from which we draw in order to act. Cultural mystification of the past entails a double loss. Works of art are made unnecessarily remote. And the past offers us fewer conclusions to complete in action. When we 'see' a landscape, we situate ourselves in it. If we 'saw' the art of the past, we would situate ourselves in history. When we are prevented from seeing it, we are being deprived of the history which belongs to us. Who benefits from this deprivation? In the end, the art of the past is being mystified because a privileged minority is striving to invent a history which can retrospectively justify the role of the ruling classes, and such a justification can no longer make sense in modern terms. And so, inevitably, it mystifies. Let us consider a typical example of such mystification. A two-volume study was recently published on Frans Hals.' It is the authoritative work to date on this painter. As a book of specialized art history it is no better and no worse than the average. The last two great paintings by Frans Hals portray the Governors and the Governesses of an Alms House for old paupers in the Dutch seventeenth-century city of Haarlem. They were officially commissioned portraits. Hals, an old man of over eighty, was destitute. Most of his life he had been in debt. During the winter of 1664, the year he began painting these pictures, he obtained three loads of peat on public charity, otherwise he would have frozen to death. Those who now sat for him were administrators of such public charity. The author records these facts and then explicitly says that it would be incorrect to read into the paintings any criticism of the sitters. There is no evidence, he says, that Hals painted them in a spirit of bitterness. The author considers them, however, remarkable works of art and explains why. Here he writes of the Regentesses: Each woman speaks to us of the human condition with equal importance. Each woman stands out with equal clarity against the enormous deep harmonious fusion unforgettable contrast powerful a peak of breadth and strength The compositional unity of a painting contributes fundamentally to the power of its image. It is reasonable to consider a painting's composition. But here the composition is written about as though it were in itself the emotional charge of the painting. Terms like harmonious fusion, unforgettable contrast, reaching a peak of breadth and strength transfer the emotion provoked by the image from the plane of lived experience, to that of disinterested 'art appreciation'. All conflict disappears. One is left with the unchanging 'human condition', and the painting considered as a marvellously made object.";
+let essay = "Seeing comes before words. The child looks and recognizes before it can speak. But there is also another sense in which seeing comes before words. It is seeing which establishes our place in the surrounding world; we explain that world with words, but words can never undo the fact that we are surrounded by it. The relation between what we see and what we know is never settled. Each evening we see the sunset. We know that the earth is turning away from it. Yet the knowledge, the explanation, never quite fits the sight. The Surrealist painter Magritte commented on this always present gap between words and seeing in a painting called The Key of Dreams. The way we see things is affected by what we know or what we believe. In the Middle Ages when men believed in the physical existence of Hell the sight of fire must have meant something different from what it means today. Nevertheless their idea of Hell owed a lot to the sight of fire consuming and the ashes remaining - as well as to their experience of the pain of burns. When in love, the sight of the beloved has a completeness which no words and no embrace can match : a completeness which only the act of making love can temporarily accommodate. Yet this seeing which comes before words, and can never be quite covered by them, is not a question of mechanically reacting to stimuli. (It can only be thought of in this way if one isolates the small part of the process which concerns the eye's retina.) We only see what we look at. To look is an act of choice. As a result of this act, what we see is brought within our reach - though not necessarily within arm's reach. To touch something is to situate oneself in relation to it. Close your eyes, move round the room and notice how the faculty of touch is like a static, limited form of sight. We never look at just one thing; we are always looking at the relation between things and ourselves. Our vision is continually active, continually moving, continually holding things in a circle around itself, constituting what is present to us as we are. Soon after we can see, we are aware that we can also be seen. The eye of the other combines with our own eye to make it fully credible that we are part of the visible world. If we accept that we can see that hill over there, we propose that from that hill we can be seen. The reciprocal nature of vision is more fundamental than that of spoken dialogue. And often dialogue is an attempt to verbalize this - an attempt to explain how, either metaphorically or literally, 'you see things', and an attempt to discover how 'he sees things'. In the sense in which we use the word in this book, all images are man-made. An image is a sight which has been recreated or reproduced. It is an appearance, or a set of appearances, which has been detached from the place and time in which it first made its appearance and preserved - for a few moments or a few centuries. Every image embodies a way of seeing. Even a photograph. For photographs are not, as is often assumed, a mechanical record. Every time we look at a photograph, we are aware, however slightly, of the photographer selecting that sight from an infinity of other possible sights. This is true even in the most casual family snapshot. The photographer's way of seeing is reflected in his choice of subject. The painter's way of seeing is reconstituted by the marks he makes on the canvas or paper. Yet, although every image embodies a way of seeing, our perception or appreciation of an image depends also upon our own way of seeing. It may be, for example, that Sheila is one figure among twenty; but for our own reasons she is the one we have eyes for. Images were first made to conjure up the appearances of something that was absent. Gradually it became evident that an image could outlast what it represented; it then showed how something or somebody had once looked - and thus by implication how the subject had once been seen by other people. Later still the specific vision of the image-maker was also recognized as part of the record. An image became a record of how X had seen V. This was the result of an increasing consciousness of individuality, accompanying an increasing awareness of history. It would be rash to try to date this last development precisely. But certainly in Europe such consciousness has existed since the beginning of the Renaissance. No other kind of relic or text from the past can offer such a direct testimony about the world which surrounded other people at other times. In this respect images are more precise and richer than literature. To say this is not to deny the expressive or imaginative quality of art, treating it as mere documentary evidence; the more imaginative the work, the more profoundly it allows us to share the artist's experience of the visible. Yet when an image is presented as a work of art, the way people look at it is affected by a whole series of learnt assumptions about art. Assumptions concerning: Beauty , Truth, Genius, Civilisation, Form, Status, Taste, etc. Many of these assumptions no longer accord with the world as it is. (The world-as-it-is is more than pure objective fact, it includes consciousness.) Out of true with the present, these assumptions obscure the past. They mystify rather than clarify. The past is never there waiting to be discovered, to be recognized for exactly what it is. History always constitutes the relation between a present and its past. Consequently fear of the present leads to mystification of the past. The past is not for living in; it is a well of conclusions from which we draw in order to act. Cultural mystification of the past entails a double loss. Works of art are made unnecessarily remote. And the past offers us fewer conclusions to complete in action. When we 'see' a landscape, we situate ourselves in it. If we 'saw' the art of the past, we would situate ourselves in history. When we are prevented from seeing it, we are being deprived of the history which belongs to us. Who benefits from this deprivation? In the end, the art of the past is being mystified because a privileged minority is striving to invent a history which can retrospectively justify the role of the ruling classes, and such a justification can no longer make sense in modern terms. And so, inevitably, it mystifies. Let us consider a typical example of such mystification. A two-volume study was recently published on Frans Hals.' It is the authoritative work to date on this painter. As a book of specialized art history it is no better and no worse than the average. The last two great paintings by Frans Hals portray the Governors and the Governesses of an Alms House for old paupers in the Dutch seventeenth-century city of Haarlem. They were officially commissioned portraits. Hals, an old man of over eighty, was destitute. Most of his life he had been in debt. During the winter of 1664, the year he began painting these pictures, he obtained three loads of peat on public charity, otherwise he would have frozen to death. Those who now sat for him were administrators of such public charity. The author records these facts and then explicitly says that it would be incorrect to read into the paintings any criticism of the sitters. There is no evidence, he says, that Hals painted them in a spirit of bitterness. The author considers them, however, remarkable works of art and explains why. Here he writes of the Regentesses: Each woman speaks to us of the human condition with equal importance. Each woman stands out with equal clarity against the enormous deep harmonious fusion unforgettable contrast powerful a peak of breadth and strength The compositional unity of a painting contributes fundamentally to the power of its image. It is reasonable to consider a painting's composition. But here the composition is written about as though it were in itself the emotional charge of the painting. Terms like harmonious fusion, unforgettable contrast, reaching a peak of breadth and strength transfer the emotion provoked by the image from the plane of lived experience, to that of disinterested 'art appreciation'. All conflict disappears. One is left with the unchanging 'human condition', and the painting considered as a marvellously made object.";
 
+// At the top with other global variables
+let logoLetters; let isLogoExploded = false;
+
+// At the top with other globals
+let resetButton;
 
 /**
  * Returns a random point uniformly distributed within a circle of a given radius.
@@ -39,8 +44,14 @@ let essay = "Seeing comes before words. The child looks and recognizes before it
  * @returns {object} An object with properties {x, y} of the random point.
  */
 
-// Add this global for tracking the currently dragged mouth ball
+// Misc Accessibility Variables
 let draggedMouthBall = null;
+let draggedLetter = null;
+let textOpacity = 0.2;  
+let pauseButton, speedButton, muteButton;
+let worldSpeed = 1;
+let isMuted = false;
+let buttonSize = 50;  
 
 function preload() {
 	somaticFont = loadFont("assets/somatic.ttf");
@@ -102,13 +113,14 @@ function keyPressed() {
 		spawnRandomYellowBall();
 	  }
 
-	  if(key === ' ') {
+	  /*if(key === ' ') {
 		autoCyclePaused = !autoCyclePaused;
 		console.log("Auto cycle paused:", autoCyclePaused);
-	  }
+	  }*/
 } 
 
 function update(){
+
 	if (kb.presses('right')) {
 	  let currentWord = words[currentWordIndex];
 	  spawnBallForWord(currentWord);
@@ -222,23 +234,71 @@ function xsScreenSettings() {
 	mouthBallsGroup = new Group();
 	balls = new Group(); balls.layer = 2;
 
-    pinkball = new balls.Group(); pinkball.diameter = 6; pinkball.collider = "dynamic"; pinkball.color = color(255, 255, 255); pinkball.stroke = '#ff0178'; pinkball.strokeWeight = 4;
-    pinkball.x = canvas.w/2; pinkball.y = canvas.h/2; pinkball.scale = 2; pinkball.layer = 4;
+    pinkball = new Group(); // corrected instantiation
+    pinkball.diameter = 6;
+    pinkball.collider = "dynamic";
+    pinkball.color = color(255, 255, 255);
+    pinkball.stroke = '#ff0178';
+    pinkball.strokeWeight = 4;
+    pinkball.x = canvas.w/2;
+    pinkball.y = canvas.h/2;
+    pinkball.scale = 2;
+    pinkball.layer = 4;
 
-    purpleball = new balls.Group(); purpleball.diameter = 6; purpleball.collider = "dynamic"; purpleball.color = color(255, 255, 255); purpleball.stroke = '#a138ff'; purpleball.strokeWeight = 4;
-    purpleball.x = canvas.w/2; purpleball.y = canvas.h/2+10; purpleball.scale = 2; purpleball.layer = 4;
+    purpleball = new Group(); // corrected instantiation
+    purpleball.diameter = 6;
+    purpleball.collider = "dynamic";
+    purpleball.color = color(255, 255, 255);
+    purpleball.stroke = '#a138ff';
+    purpleball.strokeWeight = 4;
+    purpleball.x = canvas.w/2;
+    purpleball.y = canvas.h/2+10;
+    purpleball.scale = 2;
+    purpleball.layer = 4;
 
-    blueball = new balls.Group(); blueball.diameter = 6; blueball.collider = "dynamic"; blueball.color = color(255, 255, 255); blueball.stroke = '#00a9ff'; blueball.strokeWeight = 4;
-    blueball.x = canvas.w/2; blueball.y = canvas.h/2+10+10; blueball.scale = 2; blueball.layer = 4;
+    blueball = new Group(); // corrected instantiation
+    blueball.diameter = 6;
+    blueball.collider = "dynamic";
+    blueball.color = color(255, 255, 255);
+    blueball.stroke = '#00a9ff';
+    blueball.strokeWeight = 4;
+    blueball.x = canvas.w/2;
+    blueball.y = canvas.h/2+20; // equivalent to +10+10
+    blueball.scale = 2;
+    blueball.layer = 4;
 
-    greenball = new balls.Group(); greenball.diameter = 6; greenball.collider = "dynamic"; greenball.color = color(255, 255, 255); greenball.stroke = '#13ce0d'; greenball.strokeWeight = 4;
-    greenball.x = canvas.w/2; greenball.y = canvas.h/2+10+10+10; greenball.scale = 2; greenball.layer = 4;
+    greenball = new Group(); // corrected instantiation
+    greenball.diameter = 6;
+    greenball.collider = "dynamic";
+    greenball.color = color(255, 255, 255);
+    greenball.stroke = '#13ce0d';
+    greenball.strokeWeight = 4;
+    greenball.x = canvas.w/2;
+    greenball.y = canvas.h/2+30; // equivalent to +10+10+10
+    greenball.scale = 2;
+    greenball.layer = 4;
 
-	orangeball = new balls.Group(); orangeball.diameter = 6; orangeball.collider = "dynamic"; orangeball.color = color(255, 255, 255); orangeball.stroke = '#ff560a'; orangeball.strokeWeight = 4;
-    orangeball.x = canvas.w/2; orangeball.y = canvas.h/2+10+10+10+10; orangeball.scale = 2; orangeball.layer = 4;
+	orangeball = new Group(); // corrected instantiation
+    orangeball.diameter = 6;
+    orangeball.collider = "dynamic";
+    orangeball.color = color(255, 255, 255);
+    orangeball.stroke = '#ff560a';
+    orangeball.strokeWeight = 4;
+    orangeball.x = canvas.w/2;
+    orangeball.y = canvas.h/2+40; // equivalent to +10+10+10+10
+    orangeball.scale = 2;
+    orangeball.layer = 4;
 
-	yellowball = new balls.Group(); yellowball.diameter = 6; yellowball.collider = "dynamic"; yellowball.color = color(255, 255, 255); yellowball.stroke = '#ffb00b'; yellowball.strokeWeight = 4;
-    yellowball.x = canvas.w/2; yellowball.y = canvas.h/2+10+10+10+10+10; yellowball.scale = 2; yellowball.layer = 4;
+	yellowball = new Group(); // corrected instantiation
+    yellowball.diameter = 6;
+    yellowball.collider = "dynamic";
+    yellowball.color = color(255, 255, 255);
+    yellowball.stroke = '#ffb00b';
+    yellowball.strokeWeight = 4;
+    yellowball.x = canvas.w/2;
+    yellowball.y = canvas.h/2+50; // equivalent to +10+10+10+10+10
+    yellowball.scale = 2;
+    yellowball.layer = 4;
 
 	//pinkball.amount = 1; purpleball.amount = 1; blueball.amount = 1; greenball.amount = 1; orangeball.amount = 1; yellowball.amount = 1;
 
@@ -308,14 +368,14 @@ function xsScreenSettings() {
 	nose.x = (canvas.w/2); nose.y = (canvas.h/15)*12;
 	nose.collider = 'none'; nose.image = 'assets/-_nose.png';
 
-    // OG Logo Text 
+    /*// OG Logo Text 
 	logoText = new Sprite();
 	logoText.fill = color(0, 0, 0, 0);    // Completely transparent fill
 	logoText.stroke = color(0, 0, 0, 0);  // Remove stroke/borders
 	logoText.collider = 'none'; logoText.scale = 2; 
 	logoText.x = (canvas.w/2); logoText.y = (canvas.h/18)*1.3;
 	logoText.textColor = '#550c5d';	logoText.font = 'assets/somatic.ttf';
-	logoText.text = 'ways of seeing'; logoText.textSize = 140;
+	logoText.text = 'ways of seeing'; logoText.textSize = 140; logoText.opacity = 0.2; */
 
 	// Logo Image
 	//logoImage = new Sprite();
@@ -323,6 +383,74 @@ function xsScreenSettings() {
 	//logoImage.width = 140; logoImage.height = 140;
 	//logoImage.collider = 'none'; 
 	//logoImage.image = 'assets/-_logo.png'; logoImage.scale = 2;
+
+    // Initialize the group after p5play is ready
+    logoLetters = new Group();
+    
+    // Define the text and spacing
+    const textConfig = [
+      { word: 'ways', spacings: [90, 80, 65, 11] },  // Spacing after each letter in 'ways'
+      { word: 'of', spacings: [63, -1] },            // Spacing after each letter in 'of'
+      { word: 'seeing', spacings: [65, 70, 50, 50, 80, 0] }  // Spacing after each letter in 'seeing'
+    ];
+    const wordSpacing = 100;   // Space between words
+    const y = (canvas.h/18)*1.3;
+
+    // First calculate total width to center everything
+    let totalWidth = 0;
+    for (let wordConfig of textConfig) {
+      // Add up all letter spacings in the word
+      totalWidth += wordConfig.spacings.reduce((sum, spacing) => sum + spacing, 0);
+    }
+    totalWidth += (textConfig.length - 1) * wordSpacing;  // Add space between words
+    
+    // Calculate starting X position to center the whole text
+    let currentX = (canvas.w/2) - (totalWidth/2)+0;
+
+    // Create sprites for each letter
+    for (let wordIndex = 0; wordIndex < textConfig.length; wordIndex++) {
+      const wordConfig = textConfig[wordIndex];
+      const word = wordConfig.word;
+      
+      // Create letters for this word
+      for (let letterIndex = 0; letterIndex < word.length; letterIndex++) {
+        let letter = new Sprite(currentX, y);
+        letter.text = word[letterIndex];
+        letter.textSize = 140;
+        letter.textColor = '#550c5d';
+        letter.font = 'assets/somatic.ttf';
+        letter.scale = 2;
+        letter.layer = 19;
+        letter.fill = color(0, 0, 0, 0);    // Transparent fill
+        letter.stroke = color(0, 0, 0, 0);  // No stroke
+        
+        // Add collision properties
+        letter.collider = 'none';  // Start with no collisions
+        letter.mass = 0.1;
+        letter.bounciness = 0.4;
+        letter.overlaps(allSprites);  // Start with overlapping
+        
+        // Set up collisions
+        letter.collide(boundarybox);  // Collide with main boundaries
+        letter.collide(invisborder);  // Collide with invisible border
+        letter.collides(mouthBallsGroup);  // Collide with mouth balls
+		letter.collides(letter);  // Collide with letter
+        
+        // Store initial properties for later
+        letter.initialX = currentX;
+        letter.initialY = y;
+        
+        logoLetters.add(letter);
+        
+        // Move to next letter position
+        currentX += wordConfig.spacings[letterIndex];
+      }
+      
+      // Add word spacing
+      if (wordIndex < textConfig.length - 1) {
+        currentX += wordSpacing;
+      }
+    }
 
 	// Cursor Sprite
 	cursor.width = 10; cursor.height = 10; cursor.offset.x = 0; cursor.offset.y = 0;
@@ -349,6 +477,8 @@ function xsScreenSettings() {
 	infoText.textSize = 140/4; infoText.opacity = 0.2; infoText.textAlign = LEFT; infoText.textLeading = 2;
 	infoText.textColor = '#550c5d';	infoText.font = 'assets/somatic.ttf';
 
+
+	
 	// Legend Texts
 	legendText = new Sprite();
 	legendText.fill = color(0, 0, 0, 0);    // Completely transparent fill
@@ -552,6 +682,47 @@ function xsScreenSettings() {
     yellowreg2.collider = 'none'; yellowreg2.fill = "color(0, 0, 0, 0)";  
     yellowreg2.stroke = '#ffb00b'; yellowreg2.strokeWeight = 3; 		
 	yellowreg2.visible = false;
+
+    // Create control buttons
+    const buttonY = canvas.h - 50;
+    const spacing = 65;
+    
+    // Pause Button
+    pauseButton = new Sprite(50, buttonY, buttonSize);
+    pauseButton.color = '#fff9ea';
+    pauseButton.text = autoCyclePaused ? '▶️' : '⏸️'; pauseButton.textSize = 20;
+	pauseButton.strokeWeight = 0;
+    pauseButton.layer = 20;
+    pauseButton.collider = 'none'; 
+    
+    // Speed Button
+    speedButton = new Sprite(50 + spacing, buttonY, buttonSize);
+    speedButton.color = '#fff9ea';
+    speedButton.text = '1x';
+	speedButton.textColor = '#550c5d'; speedButton.textSize = 20;
+	speedButton.strokeWeight = 0;
+    speedButton.layer = 20;
+    speedButton.collider = 'none'; 
+    
+    // Mute Button
+    muteButton = new Sprite(50 + spacing * 2, buttonY, buttonSize);
+    muteButton.color = '#fff9ea';
+    muteButton.text = '🔊';
+	muteButton.textColor = '#550c5d'; muteButton.textSize = 20;
+	muteButton.strokeWeight = 0;
+    muteButton.layer = 20;
+    muteButton.collider = 'none';  
+
+    // Reset Button (start as invisible)
+    resetButton = new Sprite(50 + spacing * 3, buttonY, buttonSize);
+    resetButton.color = '#fff9ea';
+    resetButton.text = '🔄';
+    resetButton.textColor = '#550c5d';
+    resetButton.textSize = 20;
+    resetButton.strokeWeight = 0;
+    resetButton.layer = 20;
+    resetButton.collider = 'none';
+    resetButton.visible = false;  // Start hidden
 }
 
 // In your findNearestBall function, check if the ball has already been picked up:
@@ -658,9 +829,9 @@ function handleBallEnteredPipe(ballColor) {
 	// Log for debugging
 	//console.log("Spawning mouth ball with color:", ballColor, "mapped to:", hexColor);
 	newBall.colour = hexColor; newBall.collider = 'dynamic'; 
-	newBall.collide(boundarybox); newBall.collide(headbox);
+	newBall.collide(boundarybox); newBall.collide(headbox); mouthBallsGroup.collide(invisborder); mouthBallsGroup.collides(mouthBallsGroup); 
 	newBall.velocity.x = random(-10, 10); newBall.velocity.y = random(-30, -15);
-	newBall.strokeWeight = 0; mouthBallsGroup.collides(mouthBallsGroup); mouthBallsGroup.collide(invisborder);
+	newBall.strokeWeight = 0; 
 
 	// Set a custom gravity (negative value for upward acceleration)
 	newBall.myGravity = -0.2;
@@ -748,96 +919,120 @@ let purpleCurrentDiameter = 76, purpleTargetDiameter = 76;
 let greenCurrentDiameter = 76, greenTargetDiameter = 76;
 let orangeCurrentDiameter = 76, orangeTargetDiameter = 76;
 
-function mouseHover(){
-  if (!isTouchDevice){ 
-    let pos = getInputPosition();
-    cursor.x = pos.x; cursorHitbox.x = cursor.x;
-    cursor.y = pos.y; cursorHitbox.y = cursor.y;
-    cursor.visible = true;
+function mouseHover() {
+    cursor.x = mouseX;
+    cursor.y = mouseY;
+    cursorHitbox.x = mouseX;
+    cursorHitbox.y = mouseY;
     
-    // Yellow Text Hover
-    if (cursorHitbox.overlapping(yellowText)){
-      yellowreg1.visible = true;
-      yellowreg2.visible = true;
-      targetDiameter = 95;
-      targetTextSize = 20;
-    } else {
-      yellowreg1.visible = false;
-      yellowreg2.visible = false;
-      targetDiameter = 76;
-      targetTextSize = 16;
+    // Check for dragging state first
+    if (draggedLetter || draggedMouthBall) {
+        cursor.changeAni('cursor_drag');
+        return;
     }
+    
+    // Check for button hovers
+    if (dist(mouseX, mouseY, pauseButton.x, pauseButton.y) < buttonSize/2 ||
+        dist(mouseX, mouseY, speedButton.x, speedButton.y) < buttonSize/2 ||
+        dist(mouseX, mouseY, muteButton.x, muteButton.y) < buttonSize/2 ||
+        (resetButton.visible && dist(mouseX, mouseY, resetButton.x, resetButton.y) < buttonSize/2)) {
+        cursor.changeAni('cursor_hover');
+        return;
+    }
+    
+    // Check for hover over unexploded logo
+    if (!isLogoExploded && logoLetters) {
+        for (let letter of logoLetters) {
+            if (dist(mouseX, mouseY, letter.x, letter.y) < 70) {
+                cursor.changeAni('cursor_hover');
+                return;
+            }
+        }
+    }
+
+    // Yellow Text Hover
+    if (cursorHitbox.overlapping(yellowText)) {
+        yellowreg1.visible = true;
+        yellowreg2.visible = true;
+        targetDiameter = 95;
+        targetTextSize = 20;
+    } else {
+        yellowreg1.visible = false;
+        yellowreg2.visible = false;
+        targetDiameter = 76;
+        targetTextSize = 16;
+    }
+
+	// Orange Text Hover
+	if (cursorHitbox.overlapping(orangeText)) {
+		orangereg1.visible = true;
+		orangereg2.visible = true;
+		orangeTargetDiameter = 95;
+		orangeText.textSize = 20;
+    } else {
+		orangereg1.visible = false;
+		orangereg2.visible = false;
+		orangeTargetDiameter = 76;
+		orangeText.textSize = 16;
+	}
 
     // Pink Text Hover
-    if (cursorHitbox.overlapping(pinkText)){
-      pinkreg1.visible = true;
-      pinkreg2.visible = true;
-	  pinkreg3.visible = true;
-      pinkTargetDiameter = 95;
-      pinkText.textSize = 20;
+    if (cursorHitbox.overlapping(pinkText)) {
+        pinkreg1.visible = true;
+        pinkreg2.visible = true;
+        pinkreg3.visible = true;
+        pinkTargetDiameter = 95;
+        pinkText.textSize = 20;
     } else {
-      pinkreg1.visible = false;
-      pinkreg2.visible = false;
-	  pinkreg3.visible = false;
-      pinkTargetDiameter = 76;
-      pinkText.textSize = 16;
+        pinkreg1.visible = false;
+        pinkreg2.visible = false;
+        pinkreg3.visible = false;
+        pinkTargetDiameter = 76;
+        pinkText.textSize = 16;
     }
 
-    // Blue Text Hover
-    if (cursorHitbox.overlapping(blueText)){
-      bluereg1.visible = true;
-      blueTargetDiameter = 95;
-      blueText.textSize = 20;
+	// Purple Text Hover
+	if (cursorHitbox.overlapping(purpleText)) {
+		purplereg1.visible = true;
+		purplereg2.visible = true;
+		purplereg3.visible = true;
+		purpleTargetDiameter = 95;
+		purpleText.textSize = 20;
     } else {
-      bluereg1.visible = false;
-      blueTargetDiameter = 76;
-      blueText.textSize = 16;
-    }
+		purplereg1.visible = false;
+		purplereg2.visible = false;
+		purplereg3.visible = false;
+		purpleTargetDiameter = 76;
+		purpleText.textSize = 16;
+	}
 
-    // Purple Text Hover
-    if (cursorHitbox.overlapping(purpleText)){
-      purplereg1.visible = true;
-      purplereg2.visible = true;
-	  purplereg3.visible = true;
-      purpleTargetDiameter = 95;
-      purpleText.textSize = 20;
+	// Green Text Hover
+	if (cursorHitbox.overlapping(greenText)) {
+		greenreg1.visible = true;
+		greenreg2.visible = true;
+		greenreg3.visible = true;
+		greenreg4.visible = true;
+		greenTargetDiameter = 95;
+		greenText.textSize = 20;
     } else {
-      purplereg1.visible = false;
-      purplereg2.visible = false;
-	  purplereg3.visible = false;
-      purpleTargetDiameter = 76;
-      purpleText.textSize = 16;
-    }
+		greenreg1.visible = false;
+		greenreg2.visible = false;
+		greenreg3.visible = false;
+		greenreg4.visible = false;
+		greenTargetDiameter = 76;
+		greenText.textSize = 16;
+	}
 
-    // Green Text Hover
-    if (cursorHitbox.overlapping(greenText)){
-      greenreg1.visible = true;
-      greenreg2.visible = true;
-	  greenreg3.visible = true;
-	  greenreg4.visible = true;
-      greenTargetDiameter = 95;
-      greenText.textSize = 20;
-    } else {
-      greenreg1.visible = false;
-      greenreg2.visible = false;
-	  greenreg3.visible = false;
-	  greenreg4.visible = false;
-      greenTargetDiameter = 76;
-      greenText.textSize = 16;
-    }
-
-    // Orange Text Hover
-    if (cursorHitbox.overlapping(orangeText)){
-      orangereg1.visible = true;
-      orangereg2.visible = true;
-      orangeTargetDiameter = 95;
-      orangeText.textSize = 20;
-    } else {
-      orangereg1.visible = false;
-      orangereg2.visible = false;
-      orangeTargetDiameter = 76;
-      orangeText.textSize = 16;
-    }
+	// Blue Text Hover
+	if (cursorHitbox.overlapping(blueText)) {
+		bluereg1.visible = true;
+		blueTargetDiameter = 95;
+		blueText.textSize = 20;
+	} else {
+		bluereg1.visible = false;
+		blueTargetDiameter = 76;
+		blueText.textSize = 16;
+	}
 
     // Apply smooth interpolation for all circles
     currentDiameter = lerp(currentDiameter, targetDiameter, lerpSpeed);
@@ -854,127 +1049,30 @@ function mouseHover(){
     purpleText.diameter = purpleCurrentDiameter;
     greenText.diameter = greenCurrentDiameter;
     orangeText.diameter = orangeCurrentDiameter;
-
-  } else {
-    cursor.visible = false;
-
-  // Auto cycle logic
-  if (millis() - LegendlastCycleTime > LegendcycleInterval) {
-	// Reset all visibility and sizes first
-	resetAllRegions();
-	
-	// Cycle through states
-	switch(autoCycleState) {
-	  case 0: // Yellow
-		yellowreg1.visible = true;
-		yellowreg2.visible = true;
-		targetDiameter = 95;
-		yellowText.textSize = 20;
-		break;
-		
-	  case 1: // Orange
-		orangereg1.visible = true;
-		orangereg2.visible = true;
-		orangeTargetDiameter = 95;
-		orangeText.textSize = 20;
-		break;
-		
-	  case 2: // Pink
-		pinkreg1.visible = true;
-		pinkreg2.visible = true;
-		pinkreg3.visible = true;
-		pinkTargetDiameter = 95;
-		pinkText.textSize = 20;
-		break;
-		
-	  case 3: // Purple
-		purplereg1.visible = true;
-		purplereg2.visible = true;
-		purplereg3.visible = true;
-		purpleTargetDiameter = 95;
-		purpleText.textSize = 20;
-		break;
-		
-	  case 4: // Blue
-		bluereg1.visible = true;
-		blueTargetDiameter = 95;
-		blueText.textSize = 20;
-		break;
-		
-	  case 5: // Green
-		greenreg1.visible = true;
-		greenreg2.visible = true;
-		greenreg3.visible = true;
-		greenreg4.visible = true;
-		greenTargetDiameter = 95;
-		greenText.textSize = 20;
-		break;
-	}
-	
-	// Increment state and loop back to 0 if needed
-	autoCycleState = (autoCycleState + 1) % 6;
-	LegendlastCycleTime = millis();
-  }
-}
-
-// Apply smooth interpolation for all circles (keep this outside the if/else)
-currentDiameter = lerp(currentDiameter, targetDiameter, lerpSpeed);
-pinkCurrentDiameter = lerp(pinkCurrentDiameter, pinkTargetDiameter, lerpSpeed);
-blueCurrentDiameter = lerp(blueCurrentDiameter, blueTargetDiameter, lerpSpeed);
-purpleCurrentDiameter = lerp(purpleCurrentDiameter, purpleTargetDiameter, lerpSpeed);
-greenCurrentDiameter = lerp(greenCurrentDiameter, greenTargetDiameter, lerpSpeed);
-orangeCurrentDiameter = lerp(orangeCurrentDiameter, orangeTargetDiameter, lerpSpeed);
-
-// Apply the interpolated values
-yellowText.diameter = currentDiameter;
-pinkText.diameter = pinkCurrentDiameter;
-blueText.diameter = blueCurrentDiameter;
-purpleText.diameter = purpleCurrentDiameter;
-greenText.diameter = greenCurrentDiameter;
-orangeText.diameter = orangeCurrentDiameter;
-}
-
-// Helper function to reset all regions and sizes
-function resetAllRegions() {
-// Reset visibility
-yellowreg1.visible = false;
-yellowreg2.visible = false;
-orangereg1.visible = false;
-orangereg2.visible = false;
-pinkreg1.visible = false;
-pinkreg2.visible = false;
-pinkreg3.visible = false;
-purplereg1.visible = false;
-purplereg2.visible = false;
-purplereg3.visible = false;
-bluereg1.visible = false;
-greenreg1.visible = false;
-greenreg2.visible = false;
-greenreg3.visible = false;
-greenreg4.visible = false;
-
-// Reset target diameters
-targetDiameter = 76;
-pinkTargetDiameter = 76;
-blueTargetDiameter = 76;
-purpleTargetDiameter = 76;
-greenTargetDiameter = 76;
-orangeTargetDiameter = 76;
-
-// Reset text sizes
-yellowText.textSize = 16;
-pinkText.textSize = 16;
-blueText.textSize = 16;
-purpleText.textSize = 16;
-greenText.textSize = 16;
-orangeText.textSize = 16;
+    
+    // Default cursor state if no other conditions met
+    cursor.changeAni('cursor_main');
 }
 
 function draw() {
 
 	//Interactions Framework
     mouseHover(); noCursor();
-	cursor.layer = 20; logoText.layer = 19; mouthBallsGroup.layer = 18;
+	cursor.layer = 21; logoLetters.layer = 19; mouthBallsGroup.layer = 18;
+
+	// Logo Explosion + Gravity
+	if (isLogoExploded && logoLetters) {
+		for (let letter of logoLetters) {
+		  if (letter.removed) continue;
+		  letter.vel.y -= letter.myGravity;
+		  letter.vel.x *= 0.99;
+		  if (letter.y < -200) letter.remove();
+		}
+
+		// Fade out text smoothly
+		authorText.opacity = max(0, authorText.opacity - 0.004);
+		infoText.opacity = max(0, infoText.opacity - 0.004);
+	}
 
     // OnHover Interactions
 
@@ -1870,6 +1968,95 @@ function wander1(sprite) {
 
 // Called once when the mouse is pressed.
 function mousePressed() {
+    // Check button clicks first (remove canvas height check for buttons)
+    if (dist(mouseX, mouseY, pauseButton.x, pauseButton.y) < buttonSize/2) {
+        autoCyclePaused = !autoCyclePaused;
+        pauseButton.text = autoCyclePaused ? '▶️' : '⏸️';
+        return;
+    }
+    
+    if (dist(mouseX, mouseY, speedButton.x, speedButton.y) < buttonSize/2) {
+        worldSpeed = worldSpeed === 1 ? 2 : 1;
+        world.timeScale = worldSpeed;
+        speedButton.text = worldSpeed + 'x';
+        return;
+    }
+    
+    if (dist(mouseX, mouseY, muteButton.x, muteButton.y) < buttonSize/2) {
+        isMuted = !isMuted;
+        muteButton.text = isMuted ? '🔇' : '🔊';
+        bgm.volume = isMuted ? 0 : 0.08;
+        return;
+    }
+
+    if (dist(mouseX, mouseY, resetButton.x, resetButton.y) < buttonSize/2 && resetButton.visible) {
+        // Hide reset button after reset
+        resetButton.visible = false;
+        
+        // Reset text opacity
+        authorText.opacity = 0.2;
+        infoText.opacity = 0.2;
+        
+        // Remove all existing letters
+        if (logoLetters) {
+            // Remove each letter sprite
+            for (let letter of logoLetters) {
+                if (letter) letter.remove();
+            }
+            // Clear the group itself
+            logoLetters.removeAll();
+        }
+        
+        // Reset explosion state
+        isLogoExploded = false;
+        
+        // Create new logo letters group
+        logoLetters = new Group();
+        
+        // Define the text and spacing
+        const textConfig = [
+            { word: 'ways', spacings: [90, 80, 65, 11] },
+            { word: 'of', spacings: [63, -1] },
+            { word: 'seeing', spacings: [65, 70, 50, 50, 80, 0] }
+        ];
+        const wordSpacing = 100;
+        const y = (canvas.h/18)*1.3;
+        
+        // Calculate total width
+        let totalWidth = 0;
+        for (let wordConfig of textConfig) {
+            totalWidth += wordConfig.spacings.reduce((sum, spacing) => sum + spacing, 0);
+        }
+        totalWidth += (textConfig.length - 1) * wordSpacing;
+        
+        // Create new letters
+        let currentX = (canvas.w/2) - (totalWidth/2);
+        for (let wordIndex = 0; wordIndex < textConfig.length; wordIndex++) {
+            const wordConfig = textConfig[wordIndex];
+            const word = wordConfig.word;
+            
+            for (let letterIndex = 0; letterIndex < word.length; letterIndex++) {
+                let letter = new Sprite(currentX, y);
+                letter.text = word[letterIndex];
+                letter.textSize = 140;
+                letter.textColor = '#550c5d';
+                letter.font = 'assets/somatic.ttf';
+                letter.scale = 2;
+                letter.layer = 19;
+                letter.fill = color(0, 0, 0, 0);
+                letter.stroke = color(0, 0, 0, 0);
+                letter.collider = 'none';
+                letter.overlaps(allSprites);
+                
+                logoLetters.add(letter);
+                currentX += wordConfig.spacings[letterIndex];
+            }
+            if (wordIndex < textConfig.length - 1) {
+                currentX += wordSpacing;
+            }
+        }
+        return;
+    }
 
   // Allow dragging only if the click is in the top 2/5 of the canvas
   if (mouseY > canvas.h * 2 / 5) {
@@ -1893,11 +2080,66 @@ function mousePressed() {
       }
     }
   }
+
+  // Check if click is near any letter
+  if (logoLetters) {
+    for (let letter of logoLetters) {
+      if (letter.removed) continue;
+      
+      if (dist(mouseX, mouseY, letter.x, letter.y) < 70) {
+        if (!isLogoExploded) {
+          isLogoExploded = true;
+          // Show reset button when explosion happens
+          resetButton.visible = true;
+
+          for (let l of logoLetters) {
+            if (!l.removed) {
+              // Enable physics and collisions when exploding
+              l.collider = 'dynamic';
+              l.collide(boundarybox);
+              l.collide(invisborder);
+              l.collides(mouthBallsGroup);
+              l.collides(logoLetters);
+              
+              // Set initial velocities
+              l.vel.x = random(-2, 2);
+              l.vel.y = -0.3;  // Consistent upward velocity
+              l.rotationSpeed = random(-1, 1);
+              l.width = 65; l.height = 65;
+              // Set constant upward force
+              l.myGravity = 0.02;  // Constant upward force
+            }
+          }
+        }
+        break;
+      }
+    }
+  }
+
+  // Check for letter dragging only if already exploded
+  if (isLogoExploded && logoLetters) {
+    for (let letter of logoLetters) {
+      if (letter.removed) continue;
+      if (dist(mouseX, mouseY, letter.x, letter.y) < 70) {
+        draggedLetter = letter;
+        letter.vel.x = 0;
+        letter.vel.y = 0;
+        return;
+      }
+    }
+  }
 }
 
 // Called every frame while the mouse is dragged.
 function mouseDragged() {
-  if (draggedMouthBall) {
+  if (draggedLetter) {
+    if (mouseY > canvas.h * 2 / 5) {
+      draggedLetter = null;
+      return;
+    }
+    draggedLetter.x = mouseX;
+    draggedLetter.y = mouseY;
+  } else if (draggedMouthBall) {
     // If the mouse leaves the top 2/5 of the canvas, stop dragging the ball.
     if (mouseY > canvas.h * 2 / 5) {
       draggedMouthBall = null;
@@ -1912,7 +2154,7 @@ function mouseDragged() {
 
 // Called when the mouse is released.
 function mouseReleased() {
-  // Release the dragged ball
+  draggedLetter = null;
   draggedMouthBall = null;
 }
 
@@ -2102,23 +2344,23 @@ function getRandomPointInCircle(center, radius) {
    */
   function determineBallType(word) {
 	word = word.toLowerCase();
-	if (word.match(/love|friend|social|family|child|speak|Magritte|commented|relation|world|earth|hell|painter|Middle Ages|Europe|Renaissance|past|history|image|artist|photographer|art|truth|beauty|civilisation|form|status|taste|mystify|mystification|Frans Hals|human condition/)) {
-	  // Words about relationships, emotion, social bonding, people... etc.
+	if (word.match(/love|friend|social|family|child|speak|Magritte|commented|relation|world|earth|hell|painter|Middle Ages|Europe|Renaissance|past|history|image|artist|photographer|art|truth|beauty|civilisation|form|status|taste|mystify|mystification|Frans Hals|human condition|governors|governesses|alms house|paupers|haarlem|debt|charity|administrators|sitters|women|men|dialogue|people|other|individual|individuality|minority|classes|role|justify|justification|authoritative|specialized|commissioned|portraits|destitute|life|lived|living|act|embrace|match|share|experience|direct|precise|richer|literature|expressive|profound|privileged|striving|invent|retrospectively|ruling|modern|terms|specialized|book|author|records|bitterness|spirit|equal|importance|harmonious|fusion|unforgettable|contrast|powerful|peak|breadth|strength|beloved|officially|remarkable|reads|writes|studied|language|cultural|deprivation|benefit|benefits|human|humanity|person|another|official|studied|remarkable|reads|writes|studied|language|cultural|official|studied/)) {
+    // Social/Cultural/Human interactions
 	  return "pink";
-	} else if (word.match(/mind|thought|intellect|brain|establishes|explain|world|knowledge|explanation|fact|relation|know|Surrealist/)) {
-	  // Words that refer to cognitive or mental processes.
+  } else if (word.match(/mind|thought|intellect|brain|establishes|explain|world|knowledge|explanation|fact|relation|know|Surrealist|recognizes|believe|believed|consciousness|understand|learn|assumptions|accord|mystify|mystification|constituting|awareness|imagination|imaginative|testimony|conclusions|consider|considered|reasonable|contributes|fundamentally|power|emotional|charge|provoked|plane|experience|disinterested|appreciation|transfer|emotion|disappears|unchanging|treat|treating|documentary|evidence|deny|complete|question|mechanically|reacting|stimuli|isolate|process|concerns|choice|result|credible|propose|discover|metaphorically|literally|sense|verbalize|attempt|preserved|embodies|appreciation|assumptions|learnt|objective|meaning|meant|means|think|thinking|thought|understanding|understood|realize|realized|realizing|comprehend|comprehension|interpret|interpretation|interpreting|analyzed|analysis|analyzing|reason|reasoning|reasoned|logic|logical|mentally|mental|psychologically|psychological|cognitive|cognition|intellectual|intellectually|conceptual|conceptually|abstract|abstractly|theoretical|theoretically|philosophical|philosophically/)) {
+    // Cognitive/Mental processes
 	  return "purple";
-	} else if (word.match(/nature|sky|ocean|blue|surrounding|world|evening|sunset|sun|earth|sight|painter|gap/)) {
-	  // Words evoking the outdoors and places.
+  } else if (word.match(/nature|sky|ocean|blue|surrounding|world|evening|sunset|sun|earth|sight|painter|gap|fire|hill|physical|existence|consuming|ashes|remaining|retina|circle|around|part|reach|arm's|situated|static|limited|combine|fundamental|mechanical|record|infinity|possible|sights|detached|preserved|space|spatial|environment|environmental|landscape|landscapes|geographical|geography|terrain|territory|territories|location|locations|position|positions|direction|directions|distance|distances|horizon|horizons|atmosphere|atmospheric|climate|climatic|weather|environmental|surroundings|vicinity|area|areas|region|regions|zone|zones|field|fields/)) {
+    // Physical space/Environment
 	  return "blue";
-	} else if (word.match(/image|visual|art|color|seeing|words|looks|recognizes|knowledge|see|fits/)) {
-	  // Words that stimulate visual processing, tactility, and numerals.
+  } else if (word.match(/image|visual|art|color|seeing|words|looks|recognizes|knowledge|see|fits|sight|visible|vision|images|appearance|appearances|look|looking|saw|seen|record|painting|paintings|canvas|paper|marks|relic|work|works|conjure|represent|represented|showed|looked|recognized|vision|image-maker|direct|testimony|precise|richer|literature|expressive|imaginative|presented|composition|compositional|unity|contributes|reproduction|reproduced|photograph|photographs|casual|family|snapshot|subject|selection|reflected|reconstituted|outlast|documentary|evidence|drawing|text|relic|observe|observed|observing|observation|view|viewed|viewing|viewport|witness|witnessed|witnessing|perceive|perceived|perceiving|perception|perceptual|visually|visualize|visualized|visualizing|illustration|illustrated|illustrating|pictorial|depict|depicted|depicting|depiction|render|rendered|rendering|display|displayed|displaying|exhibit|exhibited|exhibiting|show|showed|showing|shown/)) {
+    // Visual perception/Art
 	  return "green";
-	} else if (word.match(/time|place|history|location|comes|before|surrounded|between|always|present|everyday/)) {
-	  // Words about spatial or temporal concepts.
+  } else if (word.match(/time|place|history|location|comes|before|surrounded|between|always|present|everyday|past|centuries|once|beginning|first|date|winter|year|later|still|gradually|increasingly|consciousness|accompanying|awareness|certainly|existed|since|temporarily|accommodate|infinity|moments|eventually|recently|published|during|waiting|discovered|settled|constituting|present|waiting|discovered|originally|appeared|preserved|centuries|gradually|later|still|accompanying|eventually|recently|published|during|temporal|chronological|chronologically|historical|historically|era|eras|period|periods|epoch|epochs|age|ages|duration|durations|interval|intervals|sequence|sequences|timeline|timelines|contemporary|contemporaneous|modern|modernly|ancient|anciently|previous|previously|subsequent|subsequently|future|presently|currently|momentarily|temporarily|permanent|permanently|eternal|eternally|perpetual|perpetually|instant|instantly|moment|momentary|brief|briefly|lengthy|lengthily/)) {
+    // Temporal concepts
 	  return "orange";
-	} else if (word.match(/violence|danger|conflict|battle|body/)) {
-	  // Words that suggest aggression or danger and are associated with body parts.
+  } else if (word.match(/violence|danger|conflict|battle|body|eye|eyes|arm|burns|pain|frozen|death|fear|combine|consuming|ashes|remaining|retina|circle|around|reach|arm's|situated|static|limited|combine|fundamental|mechanical|record|infinity|possible|sights|detached|preserved|completeness|touch|touching|moved|moving|active|continually|moving|holding|situate|ourselves|faculty|touch|physical|physically|bodily|corporeal|corporeally|sensory|sensation|sensations|tactile|tactually|kinesthetic|kinesthetically|proprioceptive|proprioception|somatic|somatically|muscular|muscularly|skeletal|skeletally|nervous|nervously|neural|neurally|cellular|cellularly|organic|organically|physiological|physiologically|anatomical|anatomically|biological|biologically/)) {
+    // Physical sensations/Body
 	  return "yellow";
 	} else {
 	  // Default category if none match.
@@ -2153,3 +2395,5 @@ async function playBGM() {
 	const randomIndex = floor(random(nyas.length));
 	nyas[randomIndex].play();
   }
+
+
