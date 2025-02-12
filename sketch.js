@@ -184,7 +184,7 @@ frameRate(60);
 
 textAlign(CENTER, TOP);
 
-p5play.renderStats = true;
+
 allSprites.pixelPerfect = true;
 
 allSprites.overlaps(allSprites);
