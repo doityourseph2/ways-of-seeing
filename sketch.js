@@ -882,59 +882,136 @@ function handleBallEnteredPipe(ballColor) {
 
   function touchStarted() {
     if (isTouchDevice && touches.length > 0) {
-        // Handle all button touches
-        if (dist(touches[0].x, touches[0].y, pauseButton.x, pauseButton.y) < buttonSize/2) {
+        let touchX = touches[0].x;
+        let touchY = touches[0].y;
+
+        // Store initial touch position
+        touchStartX = touchX;
+        touchStartY = touchY;
+
+        // Handle button touches first
+        if (dist(touchX, touchY, pauseButton.x, pauseButton.y) < buttonSize/2) {
             autoCyclePaused = !autoCyclePaused;
             pauseButton.text = autoCyclePaused ? '▶️' : '⏸️';
             return false;
         }
         
-        if (dist(touches[0].x, touches[0].y, speedButton.x, speedButton.y) < buttonSize/2) {
+        if (dist(touchX, touchY, speedButton.x, speedButton.y) < buttonSize/2) {
             worldSpeed = worldSpeed === 1 ? 2 : 1;
             world.timeScale = worldSpeed;
             speedButton.text = worldSpeed + 'x';
             return false;
         }
         
-        if (dist(touches[0].x, touches[0].y, muteButton.x, muteButton.y) < buttonSize/2) {
+        if (dist(touchX, touchY, muteButton.x, muteButton.y) < buttonSize/2) {
             isMuted = !isMuted;
             muteButton.text = isMuted ? '🔇' : '🔊';
             bgm.volume = isMuted ? 0 : 0.08;
             return false;
         }
         
-        if (dist(touches[0].x, touches[0].y, resetButton.x, resetButton.y) < buttonSize/2 && resetButton.visible) {
+        if (dist(touchX, touchY, resetButton.x, resetButton.y) < buttonSize/2 && resetButton.visible) {
             handleReset();
             return false;
         }
         
-        // Check if touch is in top third of screen for explosion
-        if (touches[0].y < canvas.h / 3) {
-            if (!isLogoExploded && logoLetters) {
-                isLogoExploded = true;
-                resetButton.visible = true;
+        // Check for explosion trigger in top third
+        if (touchY < canvas.h / 3 && !isLogoExploded && logoLetters) {
+            isLogoExploded = true;
+            resetButton.visible = true;
 
-                for (let l of logoLetters) {
-                    if (!l.removed) {
-                        l.collider = 'dynamic';
-                        l.collide(boundarybox);
-                        l.collide(invisborder);
-                        l.collides(mouthBallsGroup);
-                        l.collides(logoLetters);
-                        
-                        l.vel.x = random(-2, 2);
-                        l.vel.y = -0.3;
-                        l.rotationSpeed = random(-1, 1);
-                        l.width = 65;
-                        l.height = 65;
-                        l.myGravity = 0.02;
-                    }
+            for (let l of logoLetters) {
+                if (!l.removed) {
+                    l.collider = 'dynamic';
+                    l.collide(boundarybox);
+                    l.collide(invisborder);
+                    l.collides(mouthBallsGroup);
+                    l.collides(logoLetters);
+                    
+                    l.vel.x = random(-2, 2);
+                    l.vel.y = -0.3;
+                    l.rotationSpeed = random(-1, 1);
+                    l.width = 65;
+                    l.height = 65;
+                    l.myGravity = 0.02;
+                }
+            }
+            return false;
+        }
+
+        // Check for draggable mouth balls
+        if (mouthBallsGroup) {
+            for (let ball of mouthBallsGroup) {
+                if (ball && !ball.removed &&
+                    touchX >= ball.x - ball.width/2 && touchX <= ball.x + ball.width/2 &&
+                    touchY >= ball.y - ball.height/2 && touchY <= ball.y + ball.height/2) {
+                    draggedMouthBall = ball;
+                    ball.velocity.x = 0;
+                    ball.velocity.y = 0;
+                    isDragging = true;
+                    return false;
                 }
             }
         }
 
-        touchStartX = touches[0].x;
-        touchStartY = touches[0].y;
+        // Check for draggable letters only after explosion
+        if (isLogoExploded && logoLetters) {
+            for (let letter of logoLetters) {
+                if (!letter.removed && dist(touchX, touchY, letter.x, letter.y) < 70) {
+                    draggedLetter = letter;
+                    letter.vel.x = 0;
+                    letter.vel.y = 0;
+                    isDragging = true;
+                    return false;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+function touchMoved() {
+    if (!isTouchDevice || touches.length === 0) return false;
+
+    let touchX = touches[0].x;
+    let touchY = touches[0].y;
+
+    // Handle dragging
+    if (isDragging) {
+        if (draggedLetter) {
+            // Update letter position
+            draggedLetter.x = touchX;
+            draggedLetter.y = touchY;
+        } else if (draggedMouthBall) {
+            // Update ball position
+            draggedMouthBall.x = touchX;
+            draggedMouthBall.y = touchY;
+        }
+    } else {
+        // Handle camera movement when not dragging
+        let deltaX = (touchX - touchStartX) * sensitivity;
+        let deltaY = (touchY - touchStartY) * sensitivity;
+
+        if (invertControls) {
+            deltaX = -deltaX;
+            deltaY = -deltaY;
+        }
+
+        // Enable if you want to move camera with touch
+        /*camera.x += deltaX;
+        camera.y += deltaY;*/
+
+        touchStartX = touchX;
+        touchStartY = touchY;
+    }
+    return false;
+}
+
+function touchEnded() {
+    if (draggedLetter || draggedMouthBall) {
+        draggedLetter = null;
+        draggedMouthBall = null;
+        isDragging = false;
     }
     return false;
 }
@@ -998,26 +1075,6 @@ function handleReset() {
         }
     }
     return;
-}
-
-function touchMoved() {
-	let touchX = touches[0].x;
-	let touchY = touches[0].y;
-
-	let deltaX = (touchX - touchStartX) * sensitivity;
-	let deltaY = (touchY - touchStartY) * sensitivity;
-
-	if (invertControls) {
-			deltaX = -deltaX;
-			deltaY = -deltaY;
-	}
-
-	// Enable if you want to move camera with touch
-	/*camera.x += deltaX;
-	camera.y += deltaY;*/
-
-	touchStartX = touchX;
-	touchStartY = touchY;
 }
 
 // Get Input Position for Touch Devices
@@ -2503,5 +2560,4 @@ async function playBGM() {
 	const randomIndex = floor(random(nyas.length));
 	nyas[randomIndex].play();
   }
-
 
