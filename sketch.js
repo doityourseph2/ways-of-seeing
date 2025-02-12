@@ -41,6 +41,14 @@ let lastHoverTime = 0;
 const HOVER_INTERVAL = 3000; // 3 seconds
 let currentHoverIndex = 0;
 
+// At the top with other globals
+const MAX_MOUTH_BALLS = 1000; // Maximum number of mouth balls allowed
+
+// Add at the top with other globals
+const TRAIL_VELOCITY_THRESHOLD = 10; // Adjust this value to change when trails appear
+const TRAIL_LENGTH = 5;
+const TRAIL_OPACITY = 0.5;
+
 /**
  * Returns a random point uniformly distributed within a circle of a given radius.
  * The point is returned relative to the provided center.
@@ -851,6 +859,42 @@ function handleBallEnteredPipe(ballColor) {
 	
 	// Add the new ball to the group that holds mouth-spawned balls.
 	mouthBallsGroup.add(newBall);
+	
+	// Add trail properties
+	newBall.trailSprites = [];
+	newBall.maxTrail = TRAIL_LENGTH;
+	
+	// Add custom update for trail
+	newBall.update = function() {
+		// Calculate total velocity
+		let totalVelocity = Math.sqrt(this.velocity.x * this.velocity.x + this.velocity.y * this.velocity.y);
+		
+		// Only create trails if moving fast enough
+		if (totalVelocity > TRAIL_VELOCITY_THRESHOLD) {
+			// Create new trail sprite
+			let trail = new Sprite(this.x, this.y);
+			trail.diameter = this.diameter * 0.8;
+			trail.color = this.colour;
+			trail.opacity = TRAIL_OPACITY;
+			trail.life = 10; trail.strokeWeight = 0;
+			trail.collider = 'none';
+			trail.layer = this.layer - 1;
+			
+			// Add to trail array
+			this.trailSprites.unshift(trail);
+			
+			// Remove old trails
+			if (this.trailSprites.length > this.maxTrail) {
+				this.trailSprites.pop().remove();
+			}
+		} else {
+			// Remove all trails when moving slowly
+			this.trailSprites.forEach(trail => {
+				if (trail) trail.remove();
+			});
+			this.trailSprites = [];
+		}
+	};
 	
 	return newBall;
 
@@ -2471,33 +2515,42 @@ function getRandomPointInCircle(center, radius) {
  * (and thus which color ball it should spawn), and then calls the appropriate spawn function.
  */
   function spawnBallForWord(word) {
-	let ballType = determineBallType(word);
-	//console.log("Processing word:", word, "=> spawning a", ballType, "ball");
-	let ball;
-	
-	// Call the correct spawning function based on the ball type.
-	if (ballType === "pink") {
-	  ball = spawnRandomPinkBall();
-	  playRandomPop();
-	} else if (ballType === "purple") {
-	  ball = spawnRandomPurpleBall();
-	  playRandomPop();
-	} else if (ballType === "blue") {
-	  ball = spawnRandomBlueBall();
-	  playRandomPop();
-	} else if (ballType === "green") {
-	  ball = spawnRandomGreenBall();
-	  playRandomPop();
-	} else if (ballType === "orange") {
-	  ball = spawnRandomOrangeBall();
-	  playRandomPop();
-	} else if (ballType === "yellow") {
-	  ball = spawnRandomYellowBall();
-	  playRandomPop();
-	} else {
-	  ball = spawnNoBall(); // fallback: no ball spawned
-	}
-	
+    // Check if we've hit the limit
+    if (mouthBallsGroup && mouthBallsGroup.length >= MAX_MOUTH_BALLS) {
+        // Remove the oldest ball
+        let oldestBall = mouthBallsGroup[0]; // First ball in the group is the oldest
+        if (oldestBall) {
+            oldestBall.remove();
+        }
+    }
+
+    let ballType = determineBallType(word);
+    //console.log("Processing word:", word, "=> spawning a", ballType, "ball");
+    let ball;
+    
+    // Call the correct spawning function based on the ball type.
+    if (ballType === "pink") {
+      ball = spawnRandomPinkBall();
+      playRandomPop();
+    } else if (ballType === "purple") {
+      ball = spawnRandomPurpleBall();
+      playRandomPop();
+    } else if (ballType === "blue") {
+      ball = spawnRandomBlueBall();
+      playRandomPop();
+    } else if (ballType === "green") {
+      ball = spawnRandomGreenBall();
+      playRandomPop();
+    } else if (ballType === "orange") {
+      ball = spawnRandomOrangeBall();
+      playRandomPop();
+    } else if (ballType === "yellow") {
+      ball = spawnRandomYellowBall();
+      playRandomPop();
+    } else {
+      ball = spawnNoBall(); // fallback: no ball spawned
+    }
+    
   }
   
   /**
