@@ -19,7 +19,7 @@ let man5WanderTarget = { x: 0, y: 0 }; let man5NeedsNewTarget = true; let man5Re
 
 // Camera, Touch Controls
 let touchStartX = 0, touchStartY = 0; let touchMoveX, touchMoveY; let touchEndX, touchEndY;
-let isTouchDevice = ("ontouchstart" in window);
+let isTouchDevice = ("ontouchstart" in window); let sensitivity = 0.8; let invertControls = true;
 
 // Global Essay Variables
 let words = [];          // Array to hold all words of the essay
@@ -34,6 +34,11 @@ let logoLetters; let isLogoExploded = false;
 
 // At the top with other globals
 let resetButton;
+
+// At the top with other globals
+let lastHoverTime = 0;
+const HOVER_INTERVAL = 3000; // 3 seconds
+let currentHoverIndex = 0;
 
 /**
  * Returns a random point uniformly distributed within a circle of a given radius.
@@ -139,6 +144,13 @@ function update(){
 function setup() {
 let DynamicWindowWidth = windowWidth;
 userStartAudio();
+
+// Touch Device Detection
+if (isTouchDevice) {
+	cursor.visible = false;
+} else {
+	cursor.visible = true;
+}
 
 if (windowWidth <= 600){
 	//console.log("XS Size detected"); 
@@ -869,8 +881,123 @@ function handleBallEnteredPipe(ballColor) {
   }
 
   function touchStarted() {
-	touchStartX = touches[0].x;
-	touchStartY = touches[0].y;
+    if (isTouchDevice && touches.length > 0) {
+        // Handle all button touches
+        if (dist(touches[0].x, touches[0].y, pauseButton.x, pauseButton.y) < buttonSize/2) {
+            autoCyclePaused = !autoCyclePaused;
+            pauseButton.text = autoCyclePaused ? '▶️' : '⏸️';
+            return false;
+        }
+        
+        if (dist(touches[0].x, touches[0].y, speedButton.x, speedButton.y) < buttonSize/2) {
+            worldSpeed = worldSpeed === 1 ? 2 : 1;
+            world.timeScale = worldSpeed;
+            speedButton.text = worldSpeed + 'x';
+            return false;
+        }
+        
+        if (dist(touches[0].x, touches[0].y, muteButton.x, muteButton.y) < buttonSize/2) {
+            isMuted = !isMuted;
+            muteButton.text = isMuted ? '🔇' : '🔊';
+            bgm.volume = isMuted ? 0 : 0.08;
+            return false;
+        }
+        
+        if (dist(touches[0].x, touches[0].y, resetButton.x, resetButton.y) < buttonSize/2 && resetButton.visible) {
+            handleReset();
+            return false;
+        }
+        
+        // Check if touch is in top third of screen for explosion
+        if (touches[0].y < canvas.h / 3) {
+            if (!isLogoExploded && logoLetters) {
+                isLogoExploded = true;
+                resetButton.visible = true;
+
+                for (let l of logoLetters) {
+                    if (!l.removed) {
+                        l.collider = 'dynamic';
+                        l.collide(boundarybox);
+                        l.collide(invisborder);
+                        l.collides(mouthBallsGroup);
+                        l.collides(logoLetters);
+                        
+                        l.vel.x = random(-2, 2);
+                        l.vel.y = -0.3;
+                        l.rotationSpeed = random(-1, 1);
+                        l.width = 65;
+                        l.height = 65;
+                        l.myGravity = 0.02;
+                    }
+                }
+            }
+        }
+
+        touchStartX = touches[0].x;
+        touchStartY = touches[0].y;
+    }
+    return false;
+}
+
+// Helper function to handle reset
+function handleReset() {
+    resetButton.visible = false;
+    authorText.opacity = 0.2;
+    infoText.opacity = 0.2;
+    
+    if (logoLetters) {
+        for (let letter of logoLetters) {
+            if (letter) letter.remove();
+        }
+        logoLetters.removeAll();
+    }
+    
+    isLogoExploded = false;
+    logoLetters = new Group();
+    
+    // Recreate logo letters
+    const textConfig = [
+        { word: 'ways', spacings: [90, 80, 65, 11] },
+        { word: 'of', spacings: [63, -1] },
+        { word: 'seeing', spacings: [65, 70, 50, 50, 80, 0] }
+    ];
+    const wordSpacing = 100;
+    const y = (canvas.h/18)*1.3;
+    
+    // Calculate total width
+    let totalWidth = 0;
+    for (let wordConfig of textConfig) {
+        totalWidth += wordConfig.spacings.reduce((sum, spacing) => sum + spacing, 0);
+    }
+    totalWidth += (textConfig.length - 1) * wordSpacing;
+    
+    // Create new letters
+    let currentX = (canvas.w/2) - (totalWidth/2);
+    for (let wordIndex = 0; wordIndex < textConfig.length; wordIndex++) {
+        const wordConfig = textConfig[wordIndex];
+        const word = wordConfig.word;
+        
+        for (let letterIndex = 0; letterIndex < word.length; letterIndex++) {
+            let letter = new Sprite(currentX, y);
+            letter.text = word[letterIndex];
+            letter.textSize = 140;
+            letter.textColor = '#550c5d';
+            letter.font = 'assets/somatic.ttf';
+            letter.scale = 2;
+            letter.layer = 19;
+            letter.fill = color(0, 0, 0, 0);
+            letter.stroke = color(0, 0, 0, 0);
+            letter.collider = 'none';
+            letter.overlaps(allSprites);
+            
+            logoLetters.add(letter);
+            currentX += wordConfig.spacings[letterIndex];
+        }
+        if (wordIndex < textConfig.length - 1) {
+            currentX += wordSpacing;
+        }
+    }
+    return;
 }
 
 function touchMoved() {
@@ -885,8 +1012,9 @@ function touchMoved() {
 			deltaY = -deltaY;
 	}
 
-	camera.x += deltaX;
-	camera.y += deltaY;
+	// Enable if you want to move camera with touch
+	/*camera.x += deltaX;
+	camera.y += deltaY;*/
 
 	touchStartX = touchX;
 	touchStartY = touchY;
@@ -900,6 +1028,7 @@ function getInputPosition() {
       y: touches[0].y
     };
   } else {
+	cursor.visible = true;
     return {
       x: mouseX,  // Use mouseX/mouseY provided by p5.js
       y: mouseY
@@ -908,9 +1037,7 @@ function getInputPosition() {
 }
 
 
-let targetDiameter = 76; let currentDiameter = 76; let targetTextSize = 16; let currentTextSize = 16; let lerpSpeed = 0.2;      
-let autoCycleState = 0; let LegendlastCycleTime = 0; const LegendcycleInterval = 3000;  // 3 seconds in milliseconds
-
+let targetDiameter = 76; let currentDiameter = 76; let targetTextSize = 16; let currentTextSize = 16; let lerpSpeed = 1;      
 
 // Add these for each color if not already defined
 let pinkCurrentDiameter = 76, pinkTargetDiameter = 76;
@@ -925,116 +1052,97 @@ function mouseHover() {
     cursorHitbox.x = mouseX;
     cursorHitbox.y = mouseY;
     
-    // Check for dragging state first
     if (draggedLetter || draggedMouthBall) {
         cursor.changeAni('cursor_drag');
         return;
     }
-    
-    // Check for button hovers
-    if (dist(mouseX, mouseY, pauseButton.x, pauseButton.y) < buttonSize/2 ||
-        dist(mouseX, mouseY, speedButton.x, speedButton.y) < buttonSize/2 ||
-        dist(mouseX, mouseY, muteButton.x, muteButton.y) < buttonSize/2 ||
-        (resetButton.visible && dist(mouseX, mouseY, resetButton.x, resetButton.y) < buttonSize/2)) {
-        cursor.changeAni('cursor_hover');
+
+    // For touch devices, simulate hover events
+    if (isTouchDevice) {
+        let currentTime = millis();
+        if (currentTime - lastHoverTime >= HOVER_INTERVAL) {
+            // Reset all region visibility
+            yellowreg1.visible = yellowreg2.visible = false;
+            orangereg1.visible = orangereg2.visible = false;
+            pinkreg1.visible = pinkreg2.visible = pinkreg3.visible = false;
+            purplereg1.visible = purplereg2.visible = purplereg3.visible = false;
+            greenreg1.visible = greenreg2.visible = greenreg3.visible = greenreg4.visible = false;
+            bluereg1.visible = false;
+
+            // Reset all target diameters first
+            targetDiameter = 72;
+            orangeTargetDiameter = 72;
+            pinkTargetDiameter = 72;
+            purpleTargetDiameter = 72;
+            greenTargetDiameter = 72;
+            blueTargetDiameter = 72;
+
+            // Reset all text sizes to default
+            yellowText.textSize = 16;
+            orangeText.textSize = 16;
+            pinkText.textSize = 16;
+            purpleText.textSize = 16;
+            greenText.textSize = 16;
+            blueText.textSize = 16;
+
+            // Set target values based on current index
+            switch(currentHoverIndex) {
+                case 0: // Yellow
+                    yellowreg1.visible = yellowreg2.visible = true;
+                    targetDiameter = 95;
+                    yellowText.textSize = 20;
+                    break;
+                case 1: // Orange
+                    orangereg1.visible = orangereg2.visible = true;
+                    orangeTargetDiameter = 95;
+                    orangeText.textSize = 20;
+                    break;
+                case 2: // Pink
+                    pinkreg1.visible = pinkreg2.visible = pinkreg3.visible = true;
+                    pinkTargetDiameter = 95;
+                    pinkText.textSize = 20;
+                    break;
+                case 3: // Purple
+                    purplereg1.visible = purplereg2.visible = purplereg3.visible = true;
+                    purpleTargetDiameter = 95;
+                    purpleText.textSize = 20;
+                    break;
+                case 4: // Blue
+                    bluereg1.visible = true;
+                    blueTargetDiameter = 95;
+                    blueText.textSize = 20;
+                    break;
+                case 5: // Green
+                    greenreg1.visible = greenreg2.visible = greenreg3.visible = greenreg4.visible = true;
+                    greenTargetDiameter = 95;
+                    greenText.textSize = 20;
+                    break;
+            }
+
+            currentHoverIndex = (currentHoverIndex + 1) % 6;
+            lastHoverTime = currentTime;
+        }
+
+        // These lerp calculations should run every frame
+        currentDiameter = lerp(currentDiameter, targetDiameter, 0.1);
+        pinkCurrentDiameter = lerp(pinkCurrentDiameter, pinkTargetDiameter, 0.1);
+        blueCurrentDiameter = lerp(blueCurrentDiameter, blueTargetDiameter, 0.1);
+        purpleCurrentDiameter = lerp(purpleCurrentDiameter, purpleTargetDiameter, 0.1);
+        greenCurrentDiameter = lerp(greenCurrentDiameter, greenTargetDiameter, 0.1);
+        orangeCurrentDiameter = lerp(orangeCurrentDiameter, orangeTargetDiameter, 0.1);
+
+        // Apply the interpolated values every frame
+        yellowText.diameter = currentDiameter;
+        pinkText.diameter = pinkCurrentDiameter;
+        blueText.diameter = blueCurrentDiameter;
+        purpleText.diameter = purpleCurrentDiameter;
+        greenText.diameter = greenCurrentDiameter;
+        orangeText.diameter = orangeCurrentDiameter;
+
         return;
     }
-    
-    // Check for hover over unexploded logo
-    if (!isLogoExploded && logoLetters) {
-        for (let letter of logoLetters) {
-            if (dist(mouseX, mouseY, letter.x, letter.y) < 70) {
-                cursor.changeAni('cursor_hover');
-                return;
-            }
-        }
-    }
 
-    // Yellow Text Hover
-    if (cursorHitbox.overlapping(yellowText)) {
-        yellowreg1.visible = true;
-        yellowreg2.visible = true;
-        targetDiameter = 95;
-        targetTextSize = 20;
-    } else {
-        yellowreg1.visible = false;
-        yellowreg2.visible = false;
-        targetDiameter = 76;
-        targetTextSize = 16;
-    }
-
-	// Orange Text Hover
-	if (cursorHitbox.overlapping(orangeText)) {
-		orangereg1.visible = true;
-		orangereg2.visible = true;
-		orangeTargetDiameter = 95;
-		orangeText.textSize = 20;
-    } else {
-		orangereg1.visible = false;
-		orangereg2.visible = false;
-		orangeTargetDiameter = 76;
-		orangeText.textSize = 16;
-	}
-
-    // Pink Text Hover
-    if (cursorHitbox.overlapping(pinkText)) {
-        pinkreg1.visible = true;
-        pinkreg2.visible = true;
-        pinkreg3.visible = true;
-        pinkTargetDiameter = 95;
-        pinkText.textSize = 20;
-    } else {
-        pinkreg1.visible = false;
-        pinkreg2.visible = false;
-        pinkreg3.visible = false;
-        pinkTargetDiameter = 76;
-        pinkText.textSize = 16;
-    }
-
-	// Purple Text Hover
-	if (cursorHitbox.overlapping(purpleText)) {
-		purplereg1.visible = true;
-		purplereg2.visible = true;
-		purplereg3.visible = true;
-		purpleTargetDiameter = 95;
-		purpleText.textSize = 20;
-    } else {
-		purplereg1.visible = false;
-		purplereg2.visible = false;
-		purplereg3.visible = false;
-		purpleTargetDiameter = 76;
-		purpleText.textSize = 16;
-	}
-
-	// Green Text Hover
-	if (cursorHitbox.overlapping(greenText)) {
-		greenreg1.visible = true;
-		greenreg2.visible = true;
-		greenreg3.visible = true;
-		greenreg4.visible = true;
-		greenTargetDiameter = 95;
-		greenText.textSize = 20;
-    } else {
-		greenreg1.visible = false;
-		greenreg2.visible = false;
-		greenreg3.visible = false;
-		greenreg4.visible = false;
-		greenTargetDiameter = 76;
-		greenText.textSize = 16;
-	}
-
-	// Blue Text Hover
-	if (cursorHitbox.overlapping(blueText)) {
-		bluereg1.visible = true;
-		blueTargetDiameter = 95;
-		blueText.textSize = 20;
-	} else {
-		bluereg1.visible = false;
-		blueTargetDiameter = 76;
-		blueText.textSize = 16;
-	}
-
-    // Apply smooth interpolation for all circles
+    // These lerp calculations should run every frame
     currentDiameter = lerp(currentDiameter, targetDiameter, lerpSpeed);
     pinkCurrentDiameter = lerp(pinkCurrentDiameter, pinkTargetDiameter, lerpSpeed);
     blueCurrentDiameter = lerp(blueCurrentDiameter, blueTargetDiameter, lerpSpeed);
