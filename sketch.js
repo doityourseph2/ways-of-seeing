@@ -20,6 +20,7 @@ let man5WanderTarget = { x: 0, y: 0 }; let man5NeedsNewTarget = true; let man5Re
 // Camera, Touch Controls
 let touchStartX = 0, touchStartY = 0; let touchMoveX, touchMoveY; let touchEndX, touchEndY;
 let isTouchDevice = ("ontouchstart" in window); let sensitivity = 0.8; let invertControls = true;
+let isDragging = false;  // Add this line to declare isDragging
 
 // Global Essay Variables
 let words = [];          // Array to hold all words of the essay
